@@ -697,7 +697,7 @@ function createCard(logo, idx) {
   card.innerHTML = `
     <span class="rank-badge">#${idx + 1}</span>
     <div class="logo-img-wrap">
-      <img class="logo-img" src="https://raw.githubusercontent.com/opencolin/sidecar-logos/master/logos/${logo.file}" alt="${logo.label} sidecar logo" loading="lazy" decoding="async" />
+      <img class="logo-img" src="https://raw.githubusercontent.com/opencolin/sidecar-logos/main/logos/${logo.file}" alt="${logo.label} sidecar logo" loading="lazy" decoding="async" />
       <span class="logo-num">${String(logo.id).padStart(3,'0')}</span>
     </div>
     <div class="logo-body">
@@ -748,7 +748,7 @@ function createCard(logo, idx) {
   editBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit`;
   editBtn.addEventListener('click', e => {
     e.stopPropagation();
-    const imgUrl = `https://raw.githubusercontent.com/opencolin/sidecar-logos/master/logos/${logo.file}`;
+    const imgUrl = `https://raw.githubusercontent.com/opencolin/sidecar-logos/main/logos/${logo.file}`;
     openEditModal(logo.id, imgUrl);
   });
   logoBody.appendChild(editBtn);
@@ -760,7 +760,7 @@ function createCard(logo, idx) {
   mintBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Mint Icon`;
   mintBtn.addEventListener('click', e => {
     e.stopPropagation();
-    const imgUrl = `https://raw.githubusercontent.com/opencolin/sidecar-logos/master/logos/${logo.file}`;
+    const imgUrl = `https://raw.githubusercontent.com/opencolin/sidecar-logos/main/logos/${logo.file}`;
     submitMint(logo.id, imgUrl, mintBtn, logo.label);
   });
   logoBody.appendChild(mintBtn);
@@ -833,7 +833,7 @@ function updateLightbox() {
   const v = votes[logo.id];
   const score = getScore(logo.id);
 
-  document.getElementById('lightbox-img').src = `https://raw.githubusercontent.com/opencolin/sidecar-logos/master/logos/${logo.file}`;
+  document.getElementById('lightbox-img').src = `https://raw.githubusercontent.com/opencolin/sidecar-logos/main/logos/${logo.file}`;
   document.getElementById('lightbox-img').alt = `${logo.label} sidecar logo`;
   document.getElementById('lightbox-num').textContent = `#${String(logo.id).padStart(3,'0')} of ${LOGOS.length}`;
   document.getElementById('lightbox-title').textContent = logo.label;
@@ -1312,7 +1312,7 @@ function addPendingEditCard(jobId, logoId, prompt) {
   const parentLogo = LOGOS.find(l => l.id === logoId);
   const parentLabel = parentLogo ? parentLogo.label : `Logo #${logoId}`;
   const parentImgUrl = parentLogo
-    ? `https://raw.githubusercontent.com/opencolin/sidecar-logos/master/logos/${parentLogo.file}`
+    ? `https://raw.githubusercontent.com/opencolin/sidecar-logos/main/logos/${parentLogo.file}`
     : '';
 
   card.innerHTML = `
