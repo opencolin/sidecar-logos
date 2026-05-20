@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidecar Logos — Vote for Your Favorite</title>
+  <meta name="description" content="Browse and vote on 472 unique sidecar logo designs. Help pick the best brand identity for Sidecar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <svg class="header-logo" viewBox="0 0 40 40" fill="none" aria-label="Sidecar logo" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="22" width="32" height="14" rx="2" fill="currentColor" opacity="0.15"/>
+          <rect x="4" y="22" width="32" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+          <rect x="7" y="14" width="7" height="10" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2"/>
+          <rect x="16.5" y="10" width="7" height="14" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2"/>
+          <rect x="26" y="14" width="7" height="10" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2"/>
+          <rect x="7" y="12" width="2" height="3" fill="currentColor"/>
+          <rect x="12" y="12" width="2" height="3" fill="currentColor"/>
+          <rect x="17" y="8" width="2" height="3" fill="currentColor"/>
+          <rect x="22" y="8" width="2" height="3" fill="currentColor"/>
+          <rect x="26" y="12" width="2" height="3" fill="currentColor"/>
+          <rect x="31" y="12" width="2" height="3" fill="currentColor"/>
+          <rect x="16" y="28" width="8" height="8" rx="1" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1 class="brand-name">Sidecar Logos</h1>
+          <p class="brand-sub">Vote for your favorite Sidecar brand</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="sort-tabs" role="tablist" aria-label="Sort order">
+          <button class="sort-tab active" data-sort="votes" role="tab" aria-selected="true">Top Voted</button>
+          <button class="sort-tab" data-sort="newest" role="tab" aria-selected="false">Newest</button>
+          <button class="sort-tab" data-sort="controversial" role="tab" aria-selected="false">Controversial</button>
+        </div>
+        <div class="header-right">
+          <div class="filter-wrap">
+            <input type="search" class="search-input" placeholder="Search styles…" aria-label="Search logos" />
+          </div>
+          <button class="create-new-btn" id="create-new-btn" aria-label="Create a new logo">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Create New
+          </button>
+          <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <span class="stat"><strong id="stat-votes">0</strong> total votes</span>
+      <span class="stat-divider">·</span>
+      <span class="stat"><strong id="stat-voted">0</strong> voted by you</span>
+      <span class="stat-divider">·</span>
+      <span class="stat leader-stat">🏆 Leader: <strong id="stat-leader">—</strong></span>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="grid" id="logo-grid" role="list" aria-label="Logo gallery"></div>
+    <div class="no-results" id="no-results" hidden>No logos match your search.</div>
+    <div class="bottom-bar">
+      <button class="all-sidecars-btn" id="all-sidecars-btn">All Sidecars (<span id="stat-total">472</span>)</button>
+    </div>
+  </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Logo detail" hidden>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="lightbox-inner">
+      <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+      <div class="lightbox-info">
+        <p class="lightbox-num" id="lightbox-num"></p>
+        <h2 class="lightbox-title" id="lightbox-title"></h2>
+        <div class="lightbox-vote-row">
+          <button class="vote-btn vote-up large" id="lb-upvote" aria-label="Upvote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            <span id="lb-up-count">0</span>
+          </button>
+          <div class="score-display" id="lb-score">0</div>
+          <button class="vote-btn vote-down large" id="lb-downvote" aria-label="Downvote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            <span id="lb-down-count">0</span>
+          </button>
+        </div>
+        <div class="lightbox-nav">
+          <button class="nav-btn" id="lb-prev" aria-label="Previous logo">← Prev</button>
+          <button class="nav-btn" id="lb-next" aria-label="Next logo">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+
+  <!-- ===== EDIT MODAL ===== -->
+  <div class="edit-modal" id="edit-modal" role="dialog" aria-modal="true" aria-label="AI Edit" hidden>
+    <div class="edit-modal-inner">
+      <button class="edit-modal-close" id="edit-modal-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="edit-modal-header">
+        <div class="edit-modal-preview-wrap">
+          <img class="edit-modal-preview" id="edit-modal-preview" src="" alt="" />
+        </div>
+        <div class="edit-modal-form">
+          <p class="edit-modal-label">AI Edit with <strong>nano banana pro</strong></p>
+          <p class="edit-modal-sub" id="edit-modal-logo-name"></p>
+          <textarea
+            class="edit-prompt-input"
+            id="edit-prompt-input"
+            rows="3"
+            placeholder="Describe your edit… e.g. Change the text to read SANDBOX everything"
+          ></textarea>
+          <div class="edit-modal-actions">
+            <button class="edit-quick-btn" data-prompt="Change all text to read SANDBOX everything, keep the same style">✦ SANDBOX everything</button>
+            <button class="edit-quick-btn" data-prompt="Remove all text from the image, keep only the sidecar graphic">✦ Remove text</button>
+            <button class="edit-quick-btn" data-prompt="Make the sidecar neon and futuristic with glowing cyan and purple">✦ Neon style</button>
+          </div>
+          <button class="edit-generate-btn" id="edit-generate-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Generate
+          </button>
+          <div class="edit-status" id="edit-status" hidden></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="edit-modal-backdrop" id="edit-modal-backdrop"></div>
+
+  <!-- ===== CREATE NEW MODAL ===== -->
+  <div class="edit-modal create-modal" id="create-modal" role="dialog" aria-modal="true" aria-label="Create New Logo" hidden>
+    <div class="edit-modal-inner">
+      <button class="edit-modal-close" id="create-modal-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="create-modal-body">
+        <div class="create-modal-heading">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <p class="edit-modal-label">Create with <strong>nano banana pro</strong></p>
+        </div>
+        <p class="create-modal-hint">Describe any sidecar logo and AI will generate it. It appears in the grid alongside all other logos so everyone can vote on it.</p>
+        <textarea
+          class="edit-prompt-input create-prompt-input"
+          id="create-prompt-input"
+          rows="4"
+          placeholder="Describe your sidecar logo…"
+        ></textarea>
+        <div class="edit-modal-actions">
+          <button class="edit-quick-btn" data-create-prompt="Flat single-color sidecar logo for Sidecar, neon cyan on white background, clean vector silhouette style">✦ Sidecar Neon</button>
+          <button class="edit-quick-btn" data-create-prompt="Sidecar logo, dark mode, purple glowing motorcycle with sidecar with circuit board details, minimal flat style">✦ Sidecar Dark</button>
+          <button class="edit-quick-btn" data-create-prompt="Sidecar logo, retro pixel art style, 8-bit motorcycle with sidecar in bright colors on white background">✦ Sidecar Pixel</button>
+          <button class="edit-quick-btn" data-create-prompt="Sidecar logo, sidecar made of a vintage motorcycle on a beach, fun playful colorful illustration style">✦ Sidecar Beach</button>
+        </div>
+        <button class="edit-generate-btn" id="create-generate-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Generate Logo
+        </button>
+        <div class="edit-status" id="create-status" hidden></div>
+      </div>
+    </div>
+  </div>
+  <div class="edit-modal-backdrop" id="create-modal-backdrop"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
