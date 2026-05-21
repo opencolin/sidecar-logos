@@ -19,18 +19,49 @@ const MODEL = 'google/gemini-3.1-flash-image-preview';
 
 // Ten distinct perturbation directions. Each takes the same input image and
 // produces a sibling design with a specific transformation.
+// VARIATIONS (10): same subject, same composition, perturbed.
 const PERTURBATIONS = [
-  { tag: 'darker',     prompt: 'Generate a sibling logo to this one. Same subject, same composition. Shift the color palette darker and moodier. Keep the wordmark "sidecar" (lowercase) if present, change nothing else about it.' },
-  { tag: 'lighter',    prompt: 'Generate a sibling logo to this one. Same subject, same composition. Shift the palette lighter, pastel, airy. Keep the wordmark "sidecar" (lowercase) if present.' },
-  { tag: 'minimal',    prompt: 'Generate a more minimal version of this logo. Strip non-essential detail. Reduce to its most essential geometric forms. Keep the wordmark "sidecar" (lowercase).' },
-  { tag: 'detailed',   prompt: 'Generate a more detailed, ornate version of this logo. Add tasteful detail, finer linework, additional flourishes. Keep the wordmark "sidecar" (lowercase).' },
-  { tag: 'geometric',  prompt: 'Reinterpret this logo using strictly geometric primitives (circles, squares, triangles). Same subject, same wordmark "sidecar" (lowercase).' },
-  { tag: 'organic',    prompt: 'Reinterpret this logo with softer, organic, hand-drawn curves. Same subject, same wordmark "sidecar" (lowercase).' },
-  { tag: 'accent',     prompt: 'Generate a sibling of this logo with a single bold accent color swapped in (pick a complementary color to the original). Same subject and composition. Same wordmark "sidecar" (lowercase).' },
-  { tag: 'texture',    prompt: 'Generate a sibling of this logo with added subtle texture (grain, halftone, or paper). Same subject and composition. Same wordmark "sidecar" (lowercase).' },
-  { tag: 'inverted',   prompt: 'Generate an inverted-palette version of this logo (negative-space inversion, light becomes dark and vice versa). Same subject. Same wordmark "sidecar" (lowercase).' },
-  { tag: 'rotated',    prompt: 'Generate a sibling with the subject in a slightly different pose/angle (rotated, mirrored, or different framing). Same style and wordmark "sidecar" (lowercase).' },
+  { tag: 'var:darker',     prompt: 'Generate a sibling logo to this one. Same subject, same composition. Shift the color palette darker and moodier. Keep the wordmark "sidecar" (lowercase) if present, change nothing else about it.' },
+  { tag: 'var:lighter',    prompt: 'Generate a sibling logo to this one. Same subject, same composition. Shift the palette lighter, pastel, airy. Keep the wordmark "sidecar" (lowercase) if present.' },
+  { tag: 'var:minimal',    prompt: 'Generate a more minimal version of this logo. Strip non-essential detail. Reduce to its most essential geometric forms. Keep the wordmark "sidecar" (lowercase).' },
+  { tag: 'var:detailed',   prompt: 'Generate a more detailed, ornate version of this logo. Add tasteful detail, finer linework, additional flourishes. Keep the wordmark "sidecar" (lowercase).' },
+  { tag: 'var:geometric',  prompt: 'Reinterpret this logo using strictly geometric primitives (circles, squares, triangles). Same subject, same wordmark "sidecar" (lowercase).' },
+  { tag: 'var:organic',    prompt: 'Reinterpret this logo with softer, organic, hand-drawn curves. Same subject, same wordmark "sidecar" (lowercase).' },
+  { tag: 'var:accent',     prompt: 'Generate a sibling of this logo with a single bold accent color swapped in (pick a complementary color to the original). Same subject and composition. Same wordmark "sidecar" (lowercase).' },
+  { tag: 'var:texture',    prompt: 'Generate a sibling of this logo with added subtle texture (grain, halftone, or paper). Same subject and composition. Same wordmark "sidecar" (lowercase).' },
+  { tag: 'var:inverted',   prompt: 'Generate an inverted-palette version of this logo (negative-space inversion, light becomes dark and vice versa). Same subject. Same wordmark "sidecar" (lowercase).' },
+  { tag: 'var:rotated',    prompt: 'Generate a sibling with the subject in a slightly different pose/angle (rotated, mirrored, or different framing). Same style and wordmark "sidecar" (lowercase).' },
 ];
+
+// CREATIVE RIFFS (10): use the upvoted image as a STYLE/AESTHETIC reference
+// only — palette, line weight, typography, mood. Subject is entirely different.
+// Pulls from Sidecar's brand vocabulary: container patterns, networking, IP,
+// WireGuard, terminal, etc. No motorcycles, no wheels.
+const RIFF_PREFIX =
+  'Use the provided image only as a STYLE and AESTHETIC reference — match its ' +
+  'color palette, line weight, typography, lighting, and overall mood. ' +
+  'But invent an ENTIRELY NEW SUBJECT and composition. ' +
+  'The new logo is for "sidecar" — a WireGuard relay that gives every Docker container ' +
+  'a real, static public IP. Brand name = the cloud-native sidecar pattern ' +
+  '(a helper container alongside a primary container). ' +
+  'HARD CONSTRAINTS: no motorcycle, no bicycle, no wheels of any kind. ' +
+  'The only text in the image is the single word "sidecar" (lowercase). ' +
+  'Square 1:1 logo, centered, on a background matching the reference style.\n\nNew subject: ';
+
+const CREATIVE_RIFFS = [
+  { tag: 'riff:two-cubes',     prompt: RIFF_PREFIX + 'two cubes side by side — one large primary cube and one smaller "sidecar" cube docked to its edge, abstract container pattern.' },
+  { tag: 'riff:rj45',          prompt: RIFF_PREFIX + 'a single RJ45 ethernet plug, head-on view, gold pins visible inside the clear housing, cable extending behind.' },
+  { tag: 'riff:container-ship',prompt: RIFF_PREFIX + 'a stylized container ship laden with stacked shipping containers, side profile.' },
+  { tag: 'riff:padlock',       prompt: RIFF_PREFIX + 'a clean minimalist padlock, WireGuard/encryption metaphor, with subtle hex-lattice texture suggesting post-quantum crypto.' },
+  { tag: 'riff:globe-pins',    prompt: RIFF_PREFIX + 'a globe with five small region pins, clean flat geometric illustration.' },
+  { tag: 'riff:terminal',      prompt: RIFF_PREFIX + 'a tiny terminal-window pictogram with a "$" prompt and the word "sidecar" beside it, monospace.' },
+  { tag: 'riff:whale',         prompt: RIFF_PREFIX + 'a stylized whale silhouette carrying stacked shipping containers on its back (Docker metaphor).' },
+  { tag: 'riff:network-mesh',  prompt: RIFF_PREFIX + 'a network topology graph: small nodes connected by thin lines, abstract mesh.' },
+  { tag: 'riff:monogram-s',    prompt: RIFF_PREFIX + 'a bold geometric letter S monogram, inscribed inside a hexagon or shield, no other decoration.' },
+  { tag: 'riff:ip-tag',        prompt: RIFF_PREFIX + 'a luggage-tag-style label showing the IP address "203.0.113.42" in clean monospace, hanging from a loop.' },
+];
+
+const ALL_PROMPTS = [...PERTURBATIONS, ...CREATIVE_RIFFS];
 
 async function fetchAsBase64(url) {
   if (url.startsWith('data:')) {
@@ -86,15 +117,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: err.message });
   }
 
-  // 2. Generate all 10 variations in parallel, settle even if some fail
+  // 2. Generate all 20 in parallel (10 variations + 10 creative riffs).
+  // settle independently so partial failures don't block successful generations.
   const settled = await Promise.allSettled(
-    PERTURBATIONS.map(p => generateOne(source.bytes, source.mime, p))
+    ALL_PROMPTS.map(p => generateOne(source.bytes, source.mime, p))
   );
 
   // 3. For each successful generation, upload + insert castle_edits row
   const results = await Promise.all(
     settled.map(async (s, i) => {
-      const p = PERTURBATIONS[i];
+      const p = ALL_PROMPTS[i];
       if (s.status !== 'fulfilled') {
         return { tag: p.tag, status: 'error', error: String(s.reason).slice(0, 200) };
       }

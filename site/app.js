@@ -1633,7 +1633,7 @@ async function spawnVariations({ id, imageUrl, label }) {
   if (card) {
     badge = document.createElement('span');
     badge.className = 'spawn-badge';
-    badge.textContent = '✦ spawning 10…';
+    badge.textContent = '✦ spawning 20…';
     badge.style.cssText = 'position:absolute;top:0.4rem;left:0.4rem;background:var(--color-up,#16a34a);color:white;font-size:11px;font-weight:600;padding:0.2rem 0.5rem;border-radius:6px;z-index:5;';
     card.appendChild(badge);
   }
@@ -1662,7 +1662,7 @@ async function spawnVariations({ id, imageUrl, label }) {
     if (typeof renderEditCards === 'function') renderEditCards();
 
     if (badge) {
-      badge.textContent = data.spawned === 10
+      badge.textContent = data.failed === 0
         ? `✦ +${data.spawned}`
         : `✦ +${data.spawned} (${data.failed} failed)`;
       setTimeout(() => badge.remove(), 4000);
