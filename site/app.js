@@ -1643,45 +1643,36 @@ async function spawnVariations({ id, imageUrl, label }) {
     card.appendChild(badge);
   }
 
-  try {
-    const res = await fetch('/api/spawn', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ logoId: typeof id === 'number' ? id : null, imageUrl, sessionId: SESSION_ID, parentLabel: label }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || `spawn ${res.status}`);
+  // Fire-and-forget: spawn cards arrive via Supabase Realtime UPDATE events
+  // (in subscribeToEditUpdates) as Qwen finishes each ~12s. The API itself
+  // takes ~4 min to fully return; we don't await it for rendering.
+  fetch('/api/spawn', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ logoId: typeof id === 'number' ? id : null, imageUrl, sessionId: SESSION_ID, parentLabel: label }),
+  })
+    .then(r => r.json())
+    .then(data => {
+      if (badge) {
+        badge.textContent = data.failed
+          ? `✦ +${data.spawned} (${data.failed} failed)`
+          : `✦ +${data.spawned}`;
+        setTimeout(() => badge.remove(), 4000);
+      }
+    })
+    .catch(err => {
+      console.warn('spawn error:', err);
+      if (badge) {
+        badge.textContent = '✕ spawn failed';
+        badge.style.background = 'var(--color-down, #dc2626)';
+        setTimeout(() => badge.remove(), 4000);
+      }
+    })
+    .finally(() => { spawnInFlight.delete(id); });
 
-    // Add returned edits to editCards and render
-    (data.edits || []).forEach(e => {
-      editCards[e.id] = {
-        id: e.id,
-        parentId: typeof id === 'number' ? id : null,
-        prompt: e.tag,
-        imageDataUrl: e.image_data_url,
-        up: 0, down: 0, userVote: null,
-        status: 'done',
-        isSpawn: true,
-      };
-    });
-    if (typeof renderEditCards === 'function') renderEditCards();
-
-    if (badge) {
-      badge.textContent = data.failed === 0
-        ? `✦ +${data.spawned}`
-        : `✦ +${data.spawned} (${data.failed} failed)`;
-      setTimeout(() => badge.remove(), 4000);
-    }
-  } catch (err) {
-    console.warn('spawn error:', err);
-    if (badge) {
-      badge.textContent = '✕ spawn failed';
-      badge.style.background = 'var(--color-down, #dc2626)';
-      setTimeout(() => badge.remove(), 4000);
-    }
-  } finally {
-    spawnInFlight.delete(id);
-  }
+  // Note: badge stays "spawning 20…" until the API completes (~4 min). Cards
+  // appear in the grid one at a time via the Realtime subscription as Qwen
+  // finishes each variation.
 }
 
 // ===== SORT & FILTER =====
@@ -2752,3 +2743,62 @@ function renderMintCard(edit) {
 // ===== LOAD EDITS ON INIT =====
 loadEditsFromSupabase();
 loadCreatedFromSupabase();
+
+// ===== SUPABASE REALTIME: live-stream spawned edits as they complete =====
+// Subscribes to UPDATE events on castle_edits where status flips to 'done'.
+// Renders each new variation in the gallery the moment Qwen finishes it.
+(function subscribeToEditUpdates() {
+  const channel = sb
+    .channel('castle_edits_live')
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'castle_edits' },
+      (payload) => {
+        const e = payload.new;
+        if (!e || e.status !== 'done' || !e.image_data_url) return;
+        if (editCards[e.id]) return; // already rendered
+        editCards[e.id] = {
+          id: e.id,
+          parentId: e.parent_logo_id,
+          prompt: e.prompt,
+          imageDataUrl: e.image_data_url,
+          up: e.up_votes || 0,
+          down: e.down_votes || 0,
+          userVote: null,
+          status: 'done',
+          isMint: e.is_mint || false,
+          isLive: true,
+        };
+        try { renderEditCards(); } catch (err) { console.warn('render error:', err); }
+        console.log('[realtime] new edit:', e.id, e.prompt);
+      },
+    )
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'castle_edits' },
+      (payload) => {
+        // INSERT fires when a job is queued (status='processing'). We don't
+        // render here — we wait for the UPDATE to status='done'. But we log
+        // for debug visibility.
+        if (payload.new?.status === 'done' && payload.new.image_data_url) {
+          // Rare case: insert came in already-done (legacy mint flow)
+          const e = payload.new;
+          if (editCards[e.id]) return;
+          editCards[e.id] = {
+            id: e.id,
+            parentId: e.parent_logo_id,
+            prompt: e.prompt,
+            imageDataUrl: e.image_data_url,
+            up: 0, down: 0, userVote: null,
+            status: 'done',
+            isMint: e.is_mint || false,
+            isLive: true,
+          };
+          try { renderEditCards(); } catch (_) {}
+        }
+      },
+    )
+    .subscribe((status) => {
+      console.log('[realtime] subscription:', status);
+    });
+})();
