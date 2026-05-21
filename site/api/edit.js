@@ -1,10 +1,21 @@
-// Vercel serverless function — AI edit a sidecar logo via Vercel AI Gateway.
-// Auth uses OIDC token automatically provisioned by Vercel.
-// Returns the generated image as a base64 data URL. No Supabase persistence.
+// Vercel serverless function — AI edit a sidecar logo via Qwen-Image-Edit.
+// Free instruction-based editor on Tailscale Funnel. Returns the generated
+// image as a base64 data URL. No Supabase persistence here — caller can
+// handle that (the spawn flow does its own DB write).
 
-import { generateText } from 'ai';
+export const config = { maxDuration: 120 };
 
-export const config = { maxDuration: 60 };
+const QWEN_ENDPOINT = 'https://wildolga.tail7a71df.ts.net:8443/edit';
+
+async function fetchSourceBytes(url) {
+  if (url.startsWith('data:')) {
+    const [, b64] = url.split(',');
+    return Buffer.from(b64, 'base64');
+  }
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`Source fetch ${r.status}`);
+  return Buffer.from(await r.arrayBuffer());
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,40 +29,26 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing prompt or imageUrl' });
   }
 
-  let imageBytes, imageMime = 'image/png';
+  let sourceBytes;
   try {
-    if (imageUrl.startsWith('data:')) {
-      const [header, b64] = imageUrl.split(',');
-      const m = header.match(/data:([^;]+)/);
-      if (m) imageMime = m[1];
-      imageBytes = Buffer.from(b64, 'base64');
-    } else {
-      const r = await fetch(imageUrl);
-      if (!r.ok) throw new Error(`fetch ${r.status}`);
-      imageBytes = Buffer.from(await r.arrayBuffer());
-    }
+    sourceBytes = await fetchSourceBytes(imageUrl);
   } catch (err) {
-    return res.status(400).json({ status: 'error', error: `Image fetch: ${err.message}` });
+    return res.status(400).json({ status: 'error', error: err.message });
   }
 
   try {
-    const result = await generateText({
-      model: 'google/gemini-3.1-flash-image-preview',
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'image', image: imageBytes, mediaType: imageMime },
-          { type: 'text', text: prompt },
-        ],
-      }],
-    });
-    const file = result.files?.find(f => f.mediaType?.startsWith('image/'));
-    if (!file) {
-      return res.status(200).json({ status: 'error', error: result.text?.slice(0, 200) || 'No image returned' });
+    const formData = new FormData();
+    formData.append('prompt', prompt);
+    formData.append('images', new Blob([sourceBytes], { type: 'image/png' }), 'source.png');
+    const qwen = await fetch(QWEN_ENDPOINT, { method: 'POST', body: formData });
+    if (!qwen.ok) {
+      const text = (await qwen.text()).slice(0, 200);
+      return res.status(200).json({ status: 'error', error: `Qwen ${qwen.status}: ${text}` });
     }
-    const b64 = file.base64 ?? Buffer.from(file.uint8Array).toString('base64');
-    return res.status(200).json({ status: 'done', imageDataUrl: `data:${file.mediaType};base64,${b64}` });
+    const pngBytes = Buffer.from(await qwen.arrayBuffer());
+    const b64 = pngBytes.toString('base64');
+    return res.status(200).json({ status: 'done', imageDataUrl: `data:image/png;base64,${b64}` });
   } catch (err) {
-    return res.status(200).json({ status: 'error', error: err.message?.slice(0, 300) || 'AI Gateway error' });
+    return res.status(200).json({ status: 'error', error: err.message?.slice(0, 300) || 'Qwen request failed' });
   }
 }

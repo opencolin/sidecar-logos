@@ -1,15 +1,25 @@
-// Vercel serverless function — Mint Icon: remove background, return clean transparent PNG.
-// Uses Vercel AI Gateway. Returns image as base64 data URL.
+// Vercel serverless function — Mint Icon via Qwen-Image-Edit.
+// Removes background from a logo, returns transparent PNG as base64 data URL.
 
-import { generateText } from 'ai';
+export const config = { maxDuration: 120 };
 
-export const config = { maxDuration: 60 };
+const QWEN_ENDPOINT = 'https://wildolga.tail7a71df.ts.net:8443/edit';
 
-const MINT_PROMPT = `Remove the background completely, making it fully transparent.
-Keep only the sidecar logo graphic — all motorcycle, sidecar, text, and decorative details.
-Do NOT add any new background color or fill.
-Output a clean PNG with a transparent background suitable for use as an app icon or sticker.
-Do not change the colors, style, or design of the sidecar illustration itself.`;
+const MINT_PROMPT =
+  'Remove the background completely, make it fully transparent. ' +
+  'Keep only the sidecar logo graphic — every line, color, and shape of ' +
+  'the foreground stays intact. Do not change colors or composition. ' +
+  'Do not add a new background. Output: clean PNG with transparent background.';
+
+async function fetchSourceBytes(url) {
+  if (url.startsWith('data:')) {
+    const [, b64] = url.split(',');
+    return Buffer.from(b64, 'base64');
+  }
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`Source fetch ${r.status}`);
+  return Buffer.from(await r.arrayBuffer());
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,40 +31,26 @@ export default async function handler(req, res) {
   const { imageUrl } = req.body || {};
   if (!imageUrl) return res.status(400).json({ error: 'Missing imageUrl' });
 
-  let imageBytes, imageMime = 'image/png';
+  let sourceBytes;
   try {
-    if (imageUrl.startsWith('data:')) {
-      const [header, b64] = imageUrl.split(',');
-      const m = header.match(/data:([^;]+)/);
-      if (m) imageMime = m[1];
-      imageBytes = Buffer.from(b64, 'base64');
-    } else {
-      const r = await fetch(imageUrl);
-      if (!r.ok) throw new Error(`fetch ${r.status}`);
-      imageBytes = Buffer.from(await r.arrayBuffer());
-    }
+    sourceBytes = await fetchSourceBytes(imageUrl);
   } catch (err) {
-    return res.status(400).json({ status: 'error', error: `Image fetch: ${err.message}` });
+    return res.status(400).json({ status: 'error', error: err.message });
   }
 
   try {
-    const result = await generateText({
-      model: 'google/gemini-3.1-flash-image-preview',
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'image', image: imageBytes, mediaType: imageMime },
-          { type: 'text', text: MINT_PROMPT },
-        ],
-      }],
-    });
-    const file = result.files?.find(f => f.mediaType?.startsWith('image/'));
-    if (!file) {
-      return res.status(200).json({ status: 'error', error: result.text?.slice(0, 200) || 'No image returned' });
+    const formData = new FormData();
+    formData.append('prompt', MINT_PROMPT);
+    formData.append('images', new Blob([sourceBytes], { type: 'image/png' }), 'source.png');
+    const qwen = await fetch(QWEN_ENDPOINT, { method: 'POST', body: formData });
+    if (!qwen.ok) {
+      const text = (await qwen.text()).slice(0, 200);
+      return res.status(200).json({ status: 'error', error: `Qwen ${qwen.status}: ${text}` });
     }
-    const b64 = file.base64 ?? Buffer.from(file.uint8Array).toString('base64');
-    return res.status(200).json({ status: 'done', imageDataUrl: `data:${file.mediaType};base64,${b64}` });
+    const pngBytes = Buffer.from(await qwen.arrayBuffer());
+    const b64 = pngBytes.toString('base64');
+    return res.status(200).json({ status: 'done', imageDataUrl: `data:image/png;base64,${b64}` });
   } catch (err) {
-    return res.status(200).json({ status: 'error', error: err.message?.slice(0, 300) || 'AI Gateway error' });
+    return res.status(200).json({ status: 'error', error: err.message?.slice(0, 300) || 'Qwen request failed' });
   }
 }
