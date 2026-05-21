@@ -1,0 +1,151 @@
+// Vercel serverless function — Spawn 10 AI variations of a logo on upvote.
+//
+// Body: { logoId: number, imageUrl: string, sessionId: string, parentLabel?: string }
+// Generates 10 img2img variations in parallel via Vercel AI Gateway (OIDC auth),
+// uploads each to Supabase Storage bucket 'edit-images', inserts a row in
+// castle_edits for each, and returns the inserted rows.
+//
+// Variations: 10 style/composition perturbations of the source image.
+
+import { generateText } from 'ai';
+import { createClient } from '@supabase/supabase-js';
+
+export const config = { maxDuration: 300 };
+
+const SUPABASE_URL = 'https://mrnccntqmkxjazznejfc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ybmNjbnRxbWt4amF6em5lamZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMDA3NTksImV4cCI6MjA5MDc3Njc1OX0.T6oFTtYiFTsx6ojuogpZFXAS7tN5-dPzwvmY5V2xFGI';
+const STORAGE_BUCKET = 'edit-images';
+const MODEL = 'google/gemini-3.1-flash-image-preview';
+
+// Ten distinct perturbation directions. Each takes the same input image and
+// produces a sibling design with a specific transformation.
+const PERTURBATIONS = [
+  { tag: 'darker',     prompt: 'Generate a sibling logo to this one. Same subject, same composition. Shift the color palette darker and moodier. Keep the wordmark "sidecar" (lowercase) if present, change nothing else about it.' },
+  { tag: 'lighter',    prompt: 'Generate a sibling logo to this one. Same subject, same composition. Shift the palette lighter, pastel, airy. Keep the wordmark "sidecar" (lowercase) if present.' },
+  { tag: 'minimal',    prompt: 'Generate a more minimal version of this logo. Strip non-essential detail. Reduce to its most essential geometric forms. Keep the wordmark "sidecar" (lowercase).' },
+  { tag: 'detailed',   prompt: 'Generate a more detailed, ornate version of this logo. Add tasteful detail, finer linework, additional flourishes. Keep the wordmark "sidecar" (lowercase).' },
+  { tag: 'geometric',  prompt: 'Reinterpret this logo using strictly geometric primitives (circles, squares, triangles). Same subject, same wordmark "sidecar" (lowercase).' },
+  { tag: 'organic',    prompt: 'Reinterpret this logo with softer, organic, hand-drawn curves. Same subject, same wordmark "sidecar" (lowercase).' },
+  { tag: 'accent',     prompt: 'Generate a sibling of this logo with a single bold accent color swapped in (pick a complementary color to the original). Same subject and composition. Same wordmark "sidecar" (lowercase).' },
+  { tag: 'texture',    prompt: 'Generate a sibling of this logo with added subtle texture (grain, halftone, or paper). Same subject and composition. Same wordmark "sidecar" (lowercase).' },
+  { tag: 'inverted',   prompt: 'Generate an inverted-palette version of this logo (negative-space inversion, light becomes dark and vice versa). Same subject. Same wordmark "sidecar" (lowercase).' },
+  { tag: 'rotated',    prompt: 'Generate a sibling with the subject in a slightly different pose/angle (rotated, mirrored, or different framing). Same style and wordmark "sidecar" (lowercase).' },
+];
+
+async function fetchAsBase64(url) {
+  if (url.startsWith('data:')) {
+    const [header, b64] = url.split(',');
+    const m = header.match(/data:([^;]+)/);
+    return { bytes: Buffer.from(b64, 'base64'), mime: m ? m[1] : 'image/png' };
+  }
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`Source image fetch ${r.status}`);
+  return { bytes: Buffer.from(await r.arrayBuffer()), mime: 'image/png' };
+}
+
+async function generateOne(sourceBytes, sourceMime, perturbation) {
+  const result = await generateText({
+    model: MODEL,
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'image', image: sourceBytes, mediaType: sourceMime },
+        { type: 'text', text: perturbation.prompt },
+      ],
+    }],
+  });
+  const file = result.files?.find(f => f.mediaType?.startsWith('image/'));
+  if (!file) {
+    throw new Error(result.text?.slice(0, 120) || 'no image returned');
+  }
+  return {
+    bytes: file.uint8Array ?? Buffer.from(file.base64, 'base64'),
+    mime: file.mediaType || 'image/png',
+  };
+}
+
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { logoId, imageUrl, sessionId, parentLabel } = req.body || {};
+  if (!logoId || !imageUrl || !sessionId) {
+    return res.status(400).json({ error: 'Missing logoId, imageUrl, or sessionId' });
+  }
+
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // 1. Fetch source image once
+  let source;
+  try {
+    source = await fetchAsBase64(imageUrl);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+
+  // 2. Generate all 10 variations in parallel, settle even if some fail
+  const settled = await Promise.allSettled(
+    PERTURBATIONS.map(p => generateOne(source.bytes, source.mime, p))
+  );
+
+  // 3. For each successful generation, upload + insert castle_edits row
+  const results = await Promise.all(
+    settled.map(async (s, i) => {
+      const p = PERTURBATIONS[i];
+      if (s.status !== 'fulfilled') {
+        return { tag: p.tag, status: 'error', error: String(s.reason).slice(0, 200) };
+      }
+      try {
+        // Insert castle_edits row first so we get a UUID for storage filename
+        const { data: row, error: insertErr } = await sb
+          .from('castle_edits')
+          .insert({
+            parent_logo_id: typeof logoId === 'number' ? logoId : null,
+            session_id: sessionId,
+            prompt: `${p.tag}: ${p.prompt.slice(0, 80)}…`,
+            source_image_url: imageUrl.startsWith('data:') ? '[data-url]' : imageUrl,
+            status: 'processing',
+            image_data_url: null,
+            up_votes: 0,
+            down_votes: 0,
+          })
+          .select('id')
+          .single();
+        if (insertErr) throw insertErr;
+
+        const jobId = row.id;
+        const ext = s.value.mime === 'image/jpeg' ? 'jpg' : 'png';
+        const filename = `spawn_${jobId}.${ext}`;
+
+        const { error: uploadErr } = await sb.storage
+          .from(STORAGE_BUCKET)
+          .upload(filename, s.value.bytes, { contentType: s.value.mime, upsert: true });
+        if (uploadErr) throw uploadErr;
+
+        const { data: urlData } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(filename);
+        const publicUrl = urlData.publicUrl;
+
+        const { error: updateErr } = await sb
+          .from('castle_edits')
+          .update({ status: 'done', image_data_url: publicUrl, error_msg: null })
+          .eq('id', jobId);
+        if (updateErr) throw updateErr;
+
+        return { tag: p.tag, status: 'done', id: jobId, image_data_url: publicUrl };
+      } catch (err) {
+        return { tag: p.tag, status: 'error', error: err.message?.slice(0, 200) };
+      }
+    })
+  );
+
+  const done = results.filter(r => r.status === 'done');
+  return res.status(200).json({
+    parentLogoId: logoId,
+    spawned: done.length,
+    failed: results.length - done.length,
+    edits: done,
+  });
+}

@@ -1609,6 +1609,74 @@ function castVote(id, dir) {
 
   // Persist to Supabase — pass wasVote so persistVote knows the pre-click state
   persistVote(id, dir, wasVote).finally(() => voteInFlight.delete(id));
+
+  // SPAWN ON UPVOTE: new upvote (not toggle-off, not already-upvoted) triggers
+  // 10 AI variations to be added to the gallery. Fire-and-forget.
+  if (dir === 'up' && wasVote !== 'up') {
+    const logo = LOGOS.find(l => l.id === id);
+    if (logo) spawnVariations({ id, imageUrl: logoUrl(logo), label: logo.label });
+  }
+}
+
+// ===== SPAWN ON UPVOTE =====
+// Fires 10 AI variations of the upvoted logo. Renders a small "spawning" badge
+// on the source card while the API works, then appends the resulting edit cards.
+const spawnInFlight = new Set();
+
+async function spawnVariations({ id, imageUrl, label }) {
+  if (spawnInFlight.has(id)) return; // one in-flight per logo per page-load
+  spawnInFlight.add(id);
+
+  // Show a small "spawning" indicator on the source card if present
+  const card = document.getElementById(`card-${id}`) || document.getElementById(`edit-card-${id}`);
+  let badge = null;
+  if (card) {
+    badge = document.createElement('span');
+    badge.className = 'spawn-badge';
+    badge.textContent = '✦ spawning 10…';
+    badge.style.cssText = 'position:absolute;top:0.4rem;left:0.4rem;background:var(--color-up,#16a34a);color:white;font-size:11px;font-weight:600;padding:0.2rem 0.5rem;border-radius:6px;z-index:5;';
+    card.appendChild(badge);
+  }
+
+  try {
+    const res = await fetch('/api/spawn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ logoId: typeof id === 'number' ? id : null, imageUrl, sessionId: SESSION_ID, parentLabel: label }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `spawn ${res.status}`);
+
+    // Add returned edits to editCards and render
+    (data.edits || []).forEach(e => {
+      editCards[e.id] = {
+        id: e.id,
+        parentId: typeof id === 'number' ? id : null,
+        prompt: e.tag,
+        imageDataUrl: e.image_data_url,
+        up: 0, down: 0, userVote: null,
+        status: 'done',
+        isSpawn: true,
+      };
+    });
+    if (typeof renderEditCards === 'function') renderEditCards();
+
+    if (badge) {
+      badge.textContent = data.spawned === 10
+        ? `✦ +${data.spawned}`
+        : `✦ +${data.spawned} (${data.failed} failed)`;
+      setTimeout(() => badge.remove(), 4000);
+    }
+  } catch (err) {
+    console.warn('spawn error:', err);
+    if (badge) {
+      badge.textContent = '✕ spawn failed';
+      badge.style.background = 'var(--color-down, #dc2626)';
+      setTimeout(() => badge.remove(), 4000);
+    }
+  } finally {
+    spawnInFlight.delete(id);
+  }
 }
 
 // ===== SORT & FILTER =====
@@ -2172,6 +2240,16 @@ async function castEditVote(editId, dir) {
     edit.userVote = dir;
   }
   updateEditCard(editId);
+
+  // SPAWN ON UPVOTE (recursive): a new upvote on an AI-generated edit also
+  // triggers 10 variations of it. parent_logo_id rolls up to the original.
+  if (dir === 'up' && wasVote !== 'up' && edit.imageDataUrl) {
+    spawnVariations({
+      id: edit.parentId ?? editId, // attribute variations to the original logo when possible
+      imageUrl: edit.imageDataUrl,
+      label: edit.prompt || 'variation',
+    });
+  }
 
   // Persist
   try {
