@@ -1503,12 +1503,16 @@ LOGOS.forEach(l => { votes[l.id] = { up: 0, down: 0, userVote: null }; });
 // ===== SUPABASE LOAD =====
 async function loadVotesFromSupabase() {
   try {
-    // Load aggregate counts
+    // Load aggregate counts.
+    // PostgREST defaults to a 1000-row response cap — we have ~1500+ rows.
+    // Use .range(0, 9999) to lift the cap so every logo's totals come back.
     const { data: aggData, error: aggErr } = await sb
       .from('castle_votes')
-      .select('logo_id, up_votes, down_votes');
+      .select('logo_id, up_votes, down_votes')
+      .range(0, 9999);
 
     if (aggErr) throw aggErr;
+    console.log(`[votes] loaded ${aggData.length} aggregate rows`);
 
     aggData.forEach(row => {
       if (votes[row.logo_id]) {
@@ -1517,11 +1521,12 @@ async function loadVotesFromSupabase() {
       }
     });
 
-    // Load this session's votes
+    // Load this session's votes (small, but be safe)
     const { data: userVoteData, error: userErr } = await sb
       .from('castle_user_votes')
       .select('logo_id, direction')
-      .eq('session_id', SESSION_ID);
+      .eq('session_id', SESSION_ID)
+      .range(0, 9999);
 
     if (userErr) throw userErr;
 
@@ -2076,9 +2081,11 @@ async function loadEditsFromSupabase() {
       .from('castle_edits')
       .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, is_mint, created_at')
       .eq('status', 'done')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .range(0, 9999);
 
     if (error) throw error;
+    console.log(`[edits] loaded ${data.length} edit rows`);
 
     // Load user votes for these edits
     const editIds = data.map(e => e.id);
@@ -2088,7 +2095,8 @@ async function loadEditsFromSupabase() {
         .from('castle_edit_user_votes')
         .select('edit_id, direction')
         .eq('session_id', SESSION_ID)
-        .in('edit_id', editIds);
+        .in('edit_id', editIds)
+        .range(0, 9999);
       (uvData || []).forEach(r => { userVoteMap[r.edit_id] = r.direction; });
     }
 
@@ -2620,7 +2628,8 @@ async function loadCreatedFromSupabase() {
       .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status')
       .eq('status', 'done')
       .is('parent_logo_id', null)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .range(0, 9999);
 
     (data || []).forEach(e => {
       if (!e.image_data_url) return;
