@@ -2102,6 +2102,7 @@ async function loadEditsFromSupabase() {
         userVote: userVoteMap[e.id] || null,
         status: 'done',
         isMint: e.is_mint || false,
+        createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
       };
     });
 
@@ -2114,27 +2115,37 @@ async function loadEditsFromSupabase() {
 // ===== RENDER EDIT CARDS =====
 function renderEditCards() {
   const grid = document.getElementById('logo-grid');
+
+  // Collect freshly-needed DOM cards (those not yet rendered).
+  // editCards is populated newest-first by loadEditsFromSupabase
+  // (.order created_at desc) and by Realtime inserts (new entries get
+  // appended to the object, but we still want them at the visual top).
+  const newCards = [];
   Object.values(editCards).forEach(edit => {
-    const existingCard = document.getElementById(`edit-card-${edit.id}`);
-    if (existingCard) {
+    const existing = document.getElementById(`edit-card-${edit.id}`);
+    if (existing) {
       if (!edit.isMint) updateEditCard(edit.id);
       return;
     }
     if (edit.status !== 'done' || !edit.imageDataUrl) return;
-    // Route minted icons to their own renderer
     if (edit.isMint) {
       renderMintCard(edit);
       return;
     }
-    const card = createEditCard(edit);
-    // Insert after the parent card if possible
-    const parentCard = document.getElementById(`card-${edit.parentId}`);
-    if (parentCard && parentCard.nextSibling) {
-      grid.insertBefore(card, parentCard.nextSibling);
-    } else {
-      grid.appendChild(card);
-    }
+    newCards.push({ edit, card: createEditCard(edit) });
   });
+
+  // Sort by created_at if available, else by isLive recency. Newest first.
+  newCards.sort((a, b) => {
+    const ta = a.edit.createdAt || (a.edit.isLive ? 1e15 : 0);
+    const tb = b.edit.createdAt || (b.edit.isLive ? 1e15 : 0);
+    return tb - ta; // newest first
+  });
+
+  // Prepend in reverse so the newest ends up at position 0 of the grid.
+  for (let i = newCards.length - 1; i >= 0; i--) {
+    grid.prepend(newCards[i].card);
+  }
 }
 
 function createEditCard(edit) {
@@ -2373,6 +2384,7 @@ async function submitEdit() {
         down: 0,
         userVote: null,
         status: 'done',
+        createdAt: Date.now(),
       };
       renderEditCards();
     } else {
@@ -2458,6 +2470,7 @@ function pollEditJob(jobId) {
           down: data.down_votes || 0,
           userVote: null,
           status: 'done',
+          createdAt: data.created_at ? new Date(data.created_at).getTime() : Date.now(),
         };
         renderEditCards();
 
@@ -2569,6 +2582,7 @@ async function submitCreate() {
         userVote: null,
         status: 'done',
         isCreated: true,
+        createdAt: Date.now(),
       };
       renderCreatedCard(editCards[localId]);
     } else {
@@ -2634,6 +2648,7 @@ async function loadCreatedFromSupabase() {
         userVote: null,
         status: 'done',
         isCreated: true,
+        createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
       };
     });
 
@@ -2674,6 +2689,7 @@ async function submitMint(logoId, imageUrl, btn, label) {
       status: 'done',
       isMint: true,
       label,
+      createdAt: Date.now(),
     };
 
     renderMintCard(editCards[fakeId]);
@@ -2728,13 +2744,8 @@ function renderMintCard(edit) {
     </div>
   `;
 
-  // Insert after the parent card
-  const parentCard = document.getElementById(`card-${edit.parentId}`);
-  if (parentCard && parentCard.nextSibling) {
-    grid.insertBefore(card, parentCard.nextSibling);
-  } else {
-    grid.appendChild(card);
-  }
+  // Always prepend so newest minted icons appear at the top.
+  grid.prepend(card);
 
   // Scroll into view
   card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -2768,6 +2779,7 @@ loadCreatedFromSupabase();
           status: 'done',
           isMint: e.is_mint || false,
           isLive: true,
+          createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
         };
         try { renderEditCards(); } catch (err) { console.warn('render error:', err); }
         console.log('[realtime] new edit:', e.id, e.prompt);
@@ -2793,6 +2805,7 @@ loadCreatedFromSupabase();
             status: 'done',
             isMint: e.is_mint || false,
             isLive: true,
+            createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
           };
           try { renderEditCards(); } catch (_) {}
         }
