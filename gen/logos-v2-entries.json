@@ -1,0 +1,3002 @@
+[
+  {
+    "id": 1001,
+    "file": "001_bike-classic_mono-flat.png",
+    "label": "Bike Classic \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1002,
+    "file": "002_bike-modern_dark-terminal.png",
+    "label": "Bike Modern \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1003,
+    "file": "003_bike-scooter_brutalist-paper.png",
+    "label": "Bike Scooter \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1004,
+    "file": "004_bike-cafe-racer_aurora-warm.png",
+    "label": "Bike Cafe Racer \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1005,
+    "file": "005_bike-cruiser_editorial-mono.png",
+    "label": "Bike Cruiser \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1006,
+    "file": "006_bike-russian_neon-pink-cyan.png",
+    "label": "Bike Russian \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1007,
+    "file": "007_bike-iso_synthwave.png",
+    "label": "Bike Iso \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1008,
+    "file": "008_bike-front_vintage-cream.png",
+    "label": "Bike Front \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1009,
+    "file": "009_bike-rear_blueprint-cyan.png",
+    "label": "Bike Rear \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1010,
+    "file": "010_bike-silhouette_isometric-pastel.png",
+    "label": "Bike Silhouette \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1011,
+    "file": "011_docker-bike_cyberpunk-magenta.png",
+    "label": "Docker Bike \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1012,
+    "file": "012_docker-bike-stacked_riso-print.png",
+    "label": "Docker Bike Stacked \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1013,
+    "file": "013_docker-whale-bike_paper-cut-layered.png",
+    "label": "Docker Whale Bike \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1014,
+    "file": "014_docker-whale-sidecar_watercolor-soft.png",
+    "label": "Docker Whale Sidecar \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1015,
+    "file": "015_docker-cube-bike_ink-sumi.png",
+    "label": "Docker Cube Bike \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1016,
+    "file": "016_ip-tag_etching-engraved.png",
+    "label": "Ip Tag \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1017,
+    "file": "017_ip-license_retro-orange-brown.png",
+    "label": "Ip License \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1018,
+    "file": "018_ipv6-license_retro-pixel.png",
+    "label": "Ipv6 License \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1019,
+    "file": "019_ip-balloon_y2k-chrome.png",
+    "label": "Ip Balloon \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1020,
+    "file": "020_ip-flag_memphis-pop.png",
+    "label": "Ip Flag \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1021,
+    "file": "021_tunnel-pipe_bauhaus-primary.png",
+    "label": "Tunnel Pipe \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1022,
+    "file": "022_tunnel-wormhole_art-deco-gold.png",
+    "label": "Tunnel Wormhole \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1023,
+    "file": "023_tunnel-pipes_art-nouveau-vine.png",
+    "label": "Tunnel Pipes \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1024,
+    "file": "024_tunnel-route_swiss-grid.png",
+    "label": "Tunnel Route \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1025,
+    "file": "025_network-graph_punk-photocopy.png",
+    "label": "Network Graph \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1026,
+    "file": "026_network-mesh_zine-collage.png",
+    "label": "Network Mesh \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1027,
+    "file": "027_network-radar_vaporwave-gradient.png",
+    "label": "Network Radar \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1028,
+    "file": "028_globe-bike_matrix-green.png",
+    "label": "Globe Bike \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1029,
+    "file": "029_globe-pins_graph-paper.png",
+    "label": "Globe Pins \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1030,
+    "file": "030_globe-orbit_holographic.png",
+    "label": "Globe Orbit \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1031,
+    "file": "031_globe-flat-map_chrome-3d-render.png",
+    "label": "Globe Flat Map \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1032,
+    "file": "032_padlock-bike_clay-3d-render.png",
+    "label": "Padlock Bike \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1033,
+    "file": "033_shield-bike_photoreal-bike.png",
+    "label": "Shield Bike \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1034,
+    "file": "034_key-bike_flat-duotone-mint.png",
+    "label": "Key Bike \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1035,
+    "file": "035_terminal-window_flat-duotone-coral.png",
+    "label": "Terminal Window \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1036,
+    "file": "036_terminal-ascii_flat-duotone-yellow.png",
+    "label": "Terminal Ascii \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1037,
+    "file": "037_terminal-cursor_minimal-line.png",
+    "label": "Terminal Cursor \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1038,
+    "file": "038_yaml-snippet_minimal-line-thick.png",
+    "label": "Yaml Snippet \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1039,
+    "file": "039_cli-prompt_scrappy-handdrawn.png",
+    "label": "Cli Prompt \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1040,
+    "file": "040_monogram-s_crayon.png",
+    "label": "Monogram S \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1041,
+    "file": "041_monogram-s-shield_embroidery.png",
+    "label": "Monogram S Shield \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1042,
+    "file": "042_hexagon-logo_denim-patch.png",
+    "label": "Hexagon Logo \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1043,
+    "file": "043_circle-logo_graffiti-spray.png",
+    "label": "Circle Logo \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1044,
+    "file": "044_square-logo_postage-vintage.png",
+    "label": "Square Logo \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1045,
+    "file": "045_container-wheels_mid-century.png",
+    "label": "Container Wheels \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1046,
+    "file": "046_cargo-bike_scandi-minimal.png",
+    "label": "Cargo Bike \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1047,
+    "file": "047_delivery-truck_japanese-modern.png",
+    "label": "Delivery Truck \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1048,
+    "file": "048_packet-flow_mexican-folk.png",
+    "label": "Packet Flow \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1049,
+    "file": "049_data-stream_nordic-runic.png",
+    "label": "Data Stream \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1050,
+    "file": "050_ones-zeros_typewriter-mono.png",
+    "label": "Ones Zeros \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1051,
+    "file": "051_highway-icon_mono-flat.png",
+    "label": "Highway Icon \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1052,
+    "file": "052_route-marker_dark-terminal.png",
+    "label": "Route Marker \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1053,
+    "file": "053_stamp-passport_brutalist-paper.png",
+    "label": "Stamp Passport \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1054,
+    "file": "054_wax-seal_aurora-warm.png",
+    "label": "Wax Seal \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1055,
+    "file": "055_patch-embroidered_editorial-mono.png",
+    "label": "Patch Embroidered \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1056,
+    "file": "056_decal-sticker_neon-pink-cyan.png",
+    "label": "Decal Sticker \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1057,
+    "file": "057_antenna-bike_synthwave.png",
+    "label": "Antenna Bike \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1058,
+    "file": "058_beacon_vintage-cream.png",
+    "label": "Beacon \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1059,
+    "file": "059_plug-socket_blueprint-cyan.png",
+    "label": "Plug Socket \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1060,
+    "file": "060_origami_isometric-pastel.png",
+    "label": "Origami \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1061,
+    "file": "061_paper-cut_cyberpunk-magenta.png",
+    "label": "Paper Cut \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1062,
+    "file": "062_pixel-art_riso-print.png",
+    "label": "Pixel Art \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1063,
+    "file": "063_vector-flat_paper-cut-layered.png",
+    "label": "Vector Flat \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1064,
+    "file": "064_line-art_watercolor-soft.png",
+    "label": "Line Art \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1065,
+    "file": "065_blueprint_ink-sumi.png",
+    "label": "Blueprint \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1066,
+    "file": "066_schematic_etching-engraved.png",
+    "label": "Schematic \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1067,
+    "file": "067_low-poly_retro-orange-brown.png",
+    "label": "Low Poly \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1068,
+    "file": "068_3d-render_retro-pixel.png",
+    "label": "3d Render \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1069,
+    "file": "069_chrome-3d_y2k-chrome.png",
+    "label": "Chrome 3d \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1070,
+    "file": "070_metallic-3d_memphis-pop.png",
+    "label": "Metallic 3d \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1071,
+    "file": "071_graffiti_bauhaus-primary.png",
+    "label": "Graffiti \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1072,
+    "file": "072_stencil_art-deco-gold.png",
+    "label": "Stencil \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1073,
+    "file": "073_retro-80s_art-nouveau-vine.png",
+    "label": "Retro 80s \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1074,
+    "file": "074_retro-70s_swiss-grid.png",
+    "label": "Retro 70s \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1075,
+    "file": "075_retro-90s_punk-photocopy.png",
+    "label": "Retro 90s \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1076,
+    "file": "076_retro-50s_zine-collage.png",
+    "label": "Retro 50s \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1077,
+    "file": "077_hand-drawn_vaporwave-gradient.png",
+    "label": "Hand Drawn \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1078,
+    "file": "078_watercolor_matrix-green.png",
+    "label": "Watercolor \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1079,
+    "file": "079_ink-wash_graph-paper.png",
+    "label": "Ink Wash \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1080,
+    "file": "080_charcoal_holographic.png",
+    "label": "Charcoal \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1081,
+    "file": "081_aurora-bike_chrome-3d-render.png",
+    "label": "Aurora Bike \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1082,
+    "file": "082_aurora-mono_clay-3d-render.png",
+    "label": "Aurora Mono \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1083,
+    "file": "083_brutalist-poster_photoreal-bike.png",
+    "label": "Brutalist Poster \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1084,
+    "file": "084_brutalist-newspaper_flat-duotone-mint.png",
+    "label": "Brutalist Newspaper \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1085,
+    "file": "085_editorial-clean_flat-duotone-coral.png",
+    "label": "Editorial Clean \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1086,
+    "file": "086_editorial-serif_flat-duotone-yellow.png",
+    "label": "Editorial Serif \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1087,
+    "file": "087_neon-tube_minimal-line.png",
+    "label": "Neon Tube \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1088,
+    "file": "088_neon-electric_minimal-line-thick.png",
+    "label": "Neon Electric \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1089,
+    "file": "089_dot-matrix_scrappy-handdrawn.png",
+    "label": "Dot Matrix \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1090,
+    "file": "090_halftone_crayon.png",
+    "label": "Halftone \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1091,
+    "file": "091_crest_embroidery.png",
+    "label": "Crest \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1092,
+    "file": "092_emblem_denim-patch.png",
+    "label": "Emblem \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1093,
+    "file": "093_club-badge_graffiti-spray.png",
+    "label": "Club Badge \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1094,
+    "file": "094_topology-tree_postage-vintage.png",
+    "label": "Topology Tree \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1095,
+    "file": "095_topology-star_mid-century.png",
+    "label": "Topology Star \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1096,
+    "file": "096_topology-ring_scandi-minimal.png",
+    "label": "Topology Ring \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1097,
+    "file": "097_constellation_japanese-modern.png",
+    "label": "Constellation \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1098,
+    "file": "098_star-trail_mexican-folk.png",
+    "label": "Star Trail \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1099,
+    "file": "099_sidecar-icon-only_nordic-runic.png",
+    "label": "Sidecar Icon Only \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1100,
+    "file": "100_sidecar-empty_typewriter-mono.png",
+    "label": "Sidecar Empty \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1101,
+    "file": "101_sidecar-cargo_mono-flat.png",
+    "label": "Sidecar Cargo \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1102,
+    "file": "102_road-trip_dark-terminal.png",
+    "label": "Road Trip \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1103,
+    "file": "103_city-skyline_brutalist-paper.png",
+    "label": "City Skyline \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1104,
+    "file": "104_mountain_aurora-warm.png",
+    "label": "Mountain \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1105,
+    "file": "105_postage-stamp_editorial-mono.png",
+    "label": "Postage Stamp \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1106,
+    "file": "106_currency-note_neon-pink-cyan.png",
+    "label": "Currency Note \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1107,
+    "file": "107_etching_synthwave.png",
+    "label": "Etching \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1108,
+    "file": "108_typography-only_vintage-cream.png",
+    "label": "Typography Only \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1109,
+    "file": "109_ligature_blueprint-cyan.png",
+    "label": "Ligature \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1110,
+    "file": "110_split-color-text_isometric-pastel.png",
+    "label": "Split Color Text \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1111,
+    "file": "111_outline-text_cyberpunk-magenta.png",
+    "label": "Outline Text \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1112,
+    "file": "112_3d-text_riso-print.png",
+    "label": "3d Text \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1113,
+    "file": "113_brand-icon-tag_paper-cut-layered.png",
+    "label": "Brand Icon Tag \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1114,
+    "file": "114_sticker-pack_watercolor-soft.png",
+    "label": "Sticker Pack \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1115,
+    "file": "115_data-center_ink-sumi.png",
+    "label": "Data Center \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1116,
+    "file": "116_server-rack_etching-engraved.png",
+    "label": "Server Rack \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1117,
+    "file": "117_packet-envelope_retro-orange-brown.png",
+    "label": "Packet Envelope \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1118,
+    "file": "118_mailbag_retro-pixel.png",
+    "label": "Mailbag \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1119,
+    "file": "119_compass-bike_y2k-chrome.png",
+    "label": "Compass Bike \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1120,
+    "file": "120_anchor-bike_memphis-pop.png",
+    "label": "Anchor Bike \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1121,
+    "file": "121_speedometer_bauhaus-primary.png",
+    "label": "Speedometer \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1122,
+    "file": "122_tachometer_art-deco-gold.png",
+    "label": "Tachometer \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1123,
+    "file": "123_typographic-sidecar_art-nouveau-vine.png",
+    "label": "Typographic Sidecar \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1124,
+    "file": "124_hidden-bike_swiss-grid.png",
+    "label": "Hidden Bike \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1125,
+    "file": "125_negative-space_punk-photocopy.png",
+    "label": "Negative Space \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1126,
+    "file": "126_origin-marker_zine-collage.png",
+    "label": "Origin Marker \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1127,
+    "file": "127_ping-marker_vaporwave-gradient.png",
+    "label": "Ping Marker \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1128,
+    "file": "128_speed-lines_matrix-green.png",
+    "label": "Speed Lines \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1129,
+    "file": "129_burnout_graph-paper.png",
+    "label": "Burnout \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1130,
+    "file": "130_art-deco_holographic.png",
+    "label": "Art Deco \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1131,
+    "file": "131_art-nouveau_chrome-3d-render.png",
+    "label": "Art Nouveau \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1132,
+    "file": "132_bauhaus_clay-3d-render.png",
+    "label": "Bauhaus \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1133,
+    "file": "133_memphis_photoreal-bike.png",
+    "label": "Memphis \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1134,
+    "file": "134_vaporwave_flat-duotone-mint.png",
+    "label": "Vaporwave \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1135,
+    "file": "135_matrix-rain_flat-duotone-coral.png",
+    "label": "Matrix Rain \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1136,
+    "file": "136_circuit-board_flat-duotone-yellow.png",
+    "label": "Circuit Board \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1137,
+    "file": "137_rubber-stamp_minimal-line.png",
+    "label": "Rubber Stamp \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1138,
+    "file": "138_logo-mark-mono_minimal-line-thick.png",
+    "label": "Logo Mark Mono \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1139,
+    "file": "139_favicon-style_scrappy-handdrawn.png",
+    "label": "Favicon Style \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1140,
+    "file": "140_character-mascot_crayon.png",
+    "label": "Character Mascot \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1141,
+    "file": "141_mascot-wave_embroidery.png",
+    "label": "Mascot Wave \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1142,
+    "file": "142_retro-arcade_denim-patch.png",
+    "label": "Retro Arcade \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1143,
+    "file": "143_game-boy_graffiti-spray.png",
+    "label": "Game Boy \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1144,
+    "file": "144_medieval-shield_postage-vintage.png",
+    "label": "Medieval Shield \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1145,
+    "file": "145_heraldic_mid-century.png",
+    "label": "Heraldic \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1146,
+    "file": "146_anatomy-callouts_scandi-minimal.png",
+    "label": "Anatomy Callouts \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1147,
+    "file": "147_xray_japanese-modern.png",
+    "label": "Xray \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1148,
+    "file": "148_japanese-poster_mexican-folk.png",
+    "label": "Japanese Poster \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1149,
+    "file": "149_italian-poster_nordic-runic.png",
+    "label": "Italian Poster \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1150,
+    "file": "150_racing-team_typewriter-mono.png",
+    "label": "Racing Team \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1151,
+    "file": "151_rally-livery_mono-flat.png",
+    "label": "Rally Livery \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1152,
+    "file": "152_polaroid_dark-terminal.png",
+    "label": "Polaroid \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1153,
+    "file": "153_instant-camera_brutalist-paper.png",
+    "label": "Instant Camera \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1154,
+    "file": "154_bento-grid_aurora-warm.png",
+    "label": "Bento Grid \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1155,
+    "file": "155_magazine-cover_editorial-mono.png",
+    "label": "Magazine Cover \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1156,
+    "file": "156_zine-cover_neon-pink-cyan.png",
+    "label": "Zine Cover \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1157,
+    "file": "157_punk-poster_synthwave.png",
+    "label": "Punk Poster \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1158,
+    "file": "158_infrastructure-icon_vintage-cream.png",
+    "label": "Infrastructure Icon \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1159,
+    "file": "159_k8s-style_blueprint-cyan.png",
+    "label": "K8s Style \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1160,
+    "file": "160_dns-tree_isometric-pastel.png",
+    "label": "Dns Tree \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1161,
+    "file": "161_router-flow_cyberpunk-magenta.png",
+    "label": "Router Flow \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1162,
+    "file": "162_ipv4-puzzle_riso-print.png",
+    "label": "Ipv4 Puzzle \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1163,
+    "file": "163_ipv6-flow_paper-cut-layered.png",
+    "label": "Ipv6 Flow \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1164,
+    "file": "164_quantum-shield_watercolor-soft.png",
+    "label": "Quantum Shield \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1165,
+    "file": "165_lattice_ink-sumi.png",
+    "label": "Lattice \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1166,
+    "file": "166_regions-five_etching-engraved.png",
+    "label": "Regions Five \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1167,
+    "file": "167_globe-mesh_retro-orange-brown.png",
+    "label": "Globe Mesh \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1168,
+    "file": "168_fade-in-out_retro-pixel.png",
+    "label": "Fade In Out \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1169,
+    "file": "169_container-orchestra_y2k-chrome.png",
+    "label": "Container Orchestra \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1170,
+    "file": "170_portal-icon_memphis-pop.png",
+    "label": "Portal Icon \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1171,
+    "file": "171_flap-board_bauhaus-primary.png",
+    "label": "Flap Board \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1172,
+    "file": "172_dot-display_art-deco-gold.png",
+    "label": "Dot Display \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1173,
+    "file": "173_bike-classic_art-nouveau-vine.png",
+    "label": "Bike Classic \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1174,
+    "file": "174_bike-modern_swiss-grid.png",
+    "label": "Bike Modern \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1175,
+    "file": "175_bike-scooter_punk-photocopy.png",
+    "label": "Bike Scooter \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1176,
+    "file": "176_bike-cafe-racer_zine-collage.png",
+    "label": "Bike Cafe Racer \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1177,
+    "file": "177_bike-cruiser_vaporwave-gradient.png",
+    "label": "Bike Cruiser \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1178,
+    "file": "178_bike-russian_matrix-green.png",
+    "label": "Bike Russian \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1179,
+    "file": "179_bike-iso_graph-paper.png",
+    "label": "Bike Iso \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1180,
+    "file": "180_bike-front_holographic.png",
+    "label": "Bike Front \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1181,
+    "file": "181_bike-rear_chrome-3d-render.png",
+    "label": "Bike Rear \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1182,
+    "file": "182_bike-silhouette_clay-3d-render.png",
+    "label": "Bike Silhouette \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1183,
+    "file": "183_docker-bike_photoreal-bike.png",
+    "label": "Docker Bike \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1184,
+    "file": "184_docker-bike-stacked_flat-duotone-mint.png",
+    "label": "Docker Bike Stacked \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1185,
+    "file": "185_docker-whale-bike_flat-duotone-coral.png",
+    "label": "Docker Whale Bike \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1186,
+    "file": "186_docker-whale-sidecar_flat-duotone-yellow.png",
+    "label": "Docker Whale Sidecar \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1187,
+    "file": "187_docker-cube-bike_minimal-line.png",
+    "label": "Docker Cube Bike \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1188,
+    "file": "188_ip-tag_minimal-line-thick.png",
+    "label": "Ip Tag \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1189,
+    "file": "189_ip-license_scrappy-handdrawn.png",
+    "label": "Ip License \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1190,
+    "file": "190_ipv6-license_crayon.png",
+    "label": "Ipv6 License \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1191,
+    "file": "191_ip-balloon_embroidery.png",
+    "label": "Ip Balloon \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1192,
+    "file": "192_ip-flag_denim-patch.png",
+    "label": "Ip Flag \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1193,
+    "file": "193_tunnel-pipe_graffiti-spray.png",
+    "label": "Tunnel Pipe \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1194,
+    "file": "194_tunnel-wormhole_postage-vintage.png",
+    "label": "Tunnel Wormhole \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1195,
+    "file": "195_tunnel-pipes_mid-century.png",
+    "label": "Tunnel Pipes \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1196,
+    "file": "196_tunnel-route_scandi-minimal.png",
+    "label": "Tunnel Route \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1197,
+    "file": "197_network-graph_japanese-modern.png",
+    "label": "Network Graph \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1198,
+    "file": "198_network-mesh_mexican-folk.png",
+    "label": "Network Mesh \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1199,
+    "file": "199_network-radar_nordic-runic.png",
+    "label": "Network Radar \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1200,
+    "file": "200_globe-bike_typewriter-mono.png",
+    "label": "Globe Bike \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1201,
+    "file": "201_globe-pins_mono-flat.png",
+    "label": "Globe Pins \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1202,
+    "file": "202_globe-orbit_dark-terminal.png",
+    "label": "Globe Orbit \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1203,
+    "file": "203_globe-flat-map_brutalist-paper.png",
+    "label": "Globe Flat Map \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1204,
+    "file": "204_padlock-bike_aurora-warm.png",
+    "label": "Padlock Bike \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1205,
+    "file": "205_shield-bike_editorial-mono.png",
+    "label": "Shield Bike \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1206,
+    "file": "206_key-bike_neon-pink-cyan.png",
+    "label": "Key Bike \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1207,
+    "file": "207_terminal-window_synthwave.png",
+    "label": "Terminal Window \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1208,
+    "file": "208_terminal-ascii_vintage-cream.png",
+    "label": "Terminal Ascii \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1209,
+    "file": "209_terminal-cursor_blueprint-cyan.png",
+    "label": "Terminal Cursor \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1210,
+    "file": "210_yaml-snippet_isometric-pastel.png",
+    "label": "Yaml Snippet \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1211,
+    "file": "211_cli-prompt_cyberpunk-magenta.png",
+    "label": "Cli Prompt \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1212,
+    "file": "212_monogram-s_riso-print.png",
+    "label": "Monogram S \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1213,
+    "file": "213_monogram-s-shield_paper-cut-layered.png",
+    "label": "Monogram S Shield \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1214,
+    "file": "214_hexagon-logo_watercolor-soft.png",
+    "label": "Hexagon Logo \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1215,
+    "file": "215_circle-logo_ink-sumi.png",
+    "label": "Circle Logo \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1216,
+    "file": "216_square-logo_etching-engraved.png",
+    "label": "Square Logo \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1217,
+    "file": "217_container-wheels_retro-orange-brown.png",
+    "label": "Container Wheels \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1218,
+    "file": "218_cargo-bike_retro-pixel.png",
+    "label": "Cargo Bike \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1219,
+    "file": "219_delivery-truck_y2k-chrome.png",
+    "label": "Delivery Truck \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1220,
+    "file": "220_packet-flow_memphis-pop.png",
+    "label": "Packet Flow \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1221,
+    "file": "221_data-stream_bauhaus-primary.png",
+    "label": "Data Stream \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1222,
+    "file": "222_ones-zeros_art-deco-gold.png",
+    "label": "Ones Zeros \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1223,
+    "file": "223_highway-icon_art-nouveau-vine.png",
+    "label": "Highway Icon \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1224,
+    "file": "224_route-marker_swiss-grid.png",
+    "label": "Route Marker \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1225,
+    "file": "225_stamp-passport_punk-photocopy.png",
+    "label": "Stamp Passport \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1226,
+    "file": "226_wax-seal_zine-collage.png",
+    "label": "Wax Seal \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1227,
+    "file": "227_patch-embroidered_vaporwave-gradient.png",
+    "label": "Patch Embroidered \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1228,
+    "file": "228_decal-sticker_matrix-green.png",
+    "label": "Decal Sticker \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1229,
+    "file": "229_antenna-bike_graph-paper.png",
+    "label": "Antenna Bike \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1230,
+    "file": "230_beacon_holographic.png",
+    "label": "Beacon \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1231,
+    "file": "231_plug-socket_chrome-3d-render.png",
+    "label": "Plug Socket \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1232,
+    "file": "232_origami_clay-3d-render.png",
+    "label": "Origami \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1233,
+    "file": "233_paper-cut_photoreal-bike.png",
+    "label": "Paper Cut \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1234,
+    "file": "234_pixel-art_flat-duotone-mint.png",
+    "label": "Pixel Art \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1235,
+    "file": "235_vector-flat_flat-duotone-coral.png",
+    "label": "Vector Flat \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1236,
+    "file": "236_line-art_flat-duotone-yellow.png",
+    "label": "Line Art \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1237,
+    "file": "237_blueprint_minimal-line.png",
+    "label": "Blueprint \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1238,
+    "file": "238_schematic_minimal-line-thick.png",
+    "label": "Schematic \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1239,
+    "file": "239_low-poly_scrappy-handdrawn.png",
+    "label": "Low Poly \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1240,
+    "file": "240_3d-render_crayon.png",
+    "label": "3d Render \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1241,
+    "file": "241_chrome-3d_embroidery.png",
+    "label": "Chrome 3d \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1242,
+    "file": "242_metallic-3d_denim-patch.png",
+    "label": "Metallic 3d \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1243,
+    "file": "243_graffiti_graffiti-spray.png",
+    "label": "Graffiti \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1244,
+    "file": "244_stencil_postage-vintage.png",
+    "label": "Stencil \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1245,
+    "file": "245_retro-80s_mid-century.png",
+    "label": "Retro 80s \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1246,
+    "file": "246_retro-70s_scandi-minimal.png",
+    "label": "Retro 70s \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1247,
+    "file": "247_retro-90s_japanese-modern.png",
+    "label": "Retro 90s \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1248,
+    "file": "248_retro-50s_mexican-folk.png",
+    "label": "Retro 50s \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1249,
+    "file": "249_hand-drawn_nordic-runic.png",
+    "label": "Hand Drawn \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1250,
+    "file": "250_watercolor_typewriter-mono.png",
+    "label": "Watercolor \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1251,
+    "file": "251_ink-wash_mono-flat.png",
+    "label": "Ink Wash \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1252,
+    "file": "252_charcoal_dark-terminal.png",
+    "label": "Charcoal \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1253,
+    "file": "253_aurora-bike_brutalist-paper.png",
+    "label": "Aurora Bike \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1254,
+    "file": "254_aurora-mono_aurora-warm.png",
+    "label": "Aurora Mono \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1255,
+    "file": "255_brutalist-poster_editorial-mono.png",
+    "label": "Brutalist Poster \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1256,
+    "file": "256_brutalist-newspaper_neon-pink-cyan.png",
+    "label": "Brutalist Newspaper \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1257,
+    "file": "257_editorial-clean_synthwave.png",
+    "label": "Editorial Clean \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1258,
+    "file": "258_editorial-serif_vintage-cream.png",
+    "label": "Editorial Serif \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1259,
+    "file": "259_neon-tube_blueprint-cyan.png",
+    "label": "Neon Tube \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1260,
+    "file": "260_neon-electric_isometric-pastel.png",
+    "label": "Neon Electric \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1261,
+    "file": "261_dot-matrix_cyberpunk-magenta.png",
+    "label": "Dot Matrix \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1262,
+    "file": "262_halftone_riso-print.png",
+    "label": "Halftone \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1263,
+    "file": "263_crest_paper-cut-layered.png",
+    "label": "Crest \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1264,
+    "file": "264_emblem_watercolor-soft.png",
+    "label": "Emblem \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1265,
+    "file": "265_club-badge_ink-sumi.png",
+    "label": "Club Badge \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1266,
+    "file": "266_topology-tree_etching-engraved.png",
+    "label": "Topology Tree \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1267,
+    "file": "267_topology-star_retro-orange-brown.png",
+    "label": "Topology Star \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1268,
+    "file": "268_topology-ring_retro-pixel.png",
+    "label": "Topology Ring \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1269,
+    "file": "269_constellation_y2k-chrome.png",
+    "label": "Constellation \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1270,
+    "file": "270_star-trail_memphis-pop.png",
+    "label": "Star Trail \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1271,
+    "file": "271_sidecar-icon-only_bauhaus-primary.png",
+    "label": "Sidecar Icon Only \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1272,
+    "file": "272_sidecar-empty_art-deco-gold.png",
+    "label": "Sidecar Empty \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1273,
+    "file": "273_sidecar-cargo_art-nouveau-vine.png",
+    "label": "Sidecar Cargo \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1274,
+    "file": "274_road-trip_swiss-grid.png",
+    "label": "Road Trip \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1275,
+    "file": "275_city-skyline_punk-photocopy.png",
+    "label": "City Skyline \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1276,
+    "file": "276_mountain_zine-collage.png",
+    "label": "Mountain \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1277,
+    "file": "277_postage-stamp_vaporwave-gradient.png",
+    "label": "Postage Stamp \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1278,
+    "file": "278_currency-note_matrix-green.png",
+    "label": "Currency Note \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1279,
+    "file": "279_etching_graph-paper.png",
+    "label": "Etching \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1280,
+    "file": "280_typography-only_holographic.png",
+    "label": "Typography Only \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1281,
+    "file": "281_ligature_chrome-3d-render.png",
+    "label": "Ligature \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1282,
+    "file": "282_split-color-text_clay-3d-render.png",
+    "label": "Split Color Text \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1283,
+    "file": "283_outline-text_photoreal-bike.png",
+    "label": "Outline Text \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1284,
+    "file": "284_3d-text_flat-duotone-mint.png",
+    "label": "3d Text \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1285,
+    "file": "285_brand-icon-tag_flat-duotone-coral.png",
+    "label": "Brand Icon Tag \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1286,
+    "file": "286_sticker-pack_flat-duotone-yellow.png",
+    "label": "Sticker Pack \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1287,
+    "file": "287_data-center_minimal-line.png",
+    "label": "Data Center \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1288,
+    "file": "288_server-rack_minimal-line-thick.png",
+    "label": "Server Rack \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1289,
+    "file": "289_packet-envelope_scrappy-handdrawn.png",
+    "label": "Packet Envelope \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1290,
+    "file": "290_mailbag_crayon.png",
+    "label": "Mailbag \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1291,
+    "file": "291_compass-bike_embroidery.png",
+    "label": "Compass Bike \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1292,
+    "file": "292_anchor-bike_denim-patch.png",
+    "label": "Anchor Bike \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1293,
+    "file": "293_speedometer_graffiti-spray.png",
+    "label": "Speedometer \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1294,
+    "file": "294_tachometer_postage-vintage.png",
+    "label": "Tachometer \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1295,
+    "file": "295_typographic-sidecar_mid-century.png",
+    "label": "Typographic Sidecar \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1296,
+    "file": "296_hidden-bike_scandi-minimal.png",
+    "label": "Hidden Bike \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1297,
+    "file": "297_negative-space_japanese-modern.png",
+    "label": "Negative Space \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1298,
+    "file": "298_origin-marker_mexican-folk.png",
+    "label": "Origin Marker \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1299,
+    "file": "299_ping-marker_nordic-runic.png",
+    "label": "Ping Marker \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1300,
+    "file": "300_speed-lines_typewriter-mono.png",
+    "label": "Speed Lines \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1301,
+    "file": "301_burnout_mono-flat.png",
+    "label": "Burnout \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1302,
+    "file": "302_art-deco_dark-terminal.png",
+    "label": "Art Deco \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1303,
+    "file": "303_art-nouveau_brutalist-paper.png",
+    "label": "Art Nouveau \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1304,
+    "file": "304_bauhaus_aurora-warm.png",
+    "label": "Bauhaus \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1305,
+    "file": "305_memphis_editorial-mono.png",
+    "label": "Memphis \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1306,
+    "file": "306_vaporwave_neon-pink-cyan.png",
+    "label": "Vaporwave \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1307,
+    "file": "307_matrix-rain_synthwave.png",
+    "label": "Matrix Rain \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1308,
+    "file": "308_circuit-board_vintage-cream.png",
+    "label": "Circuit Board \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1309,
+    "file": "309_rubber-stamp_blueprint-cyan.png",
+    "label": "Rubber Stamp \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1310,
+    "file": "310_logo-mark-mono_isometric-pastel.png",
+    "label": "Logo Mark Mono \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1311,
+    "file": "311_favicon-style_cyberpunk-magenta.png",
+    "label": "Favicon Style \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1312,
+    "file": "312_character-mascot_riso-print.png",
+    "label": "Character Mascot \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1313,
+    "file": "313_mascot-wave_paper-cut-layered.png",
+    "label": "Mascot Wave \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1314,
+    "file": "314_retro-arcade_watercolor-soft.png",
+    "label": "Retro Arcade \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1315,
+    "file": "315_game-boy_ink-sumi.png",
+    "label": "Game Boy \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1316,
+    "file": "316_medieval-shield_etching-engraved.png",
+    "label": "Medieval Shield \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1317,
+    "file": "317_heraldic_retro-orange-brown.png",
+    "label": "Heraldic \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1318,
+    "file": "318_anatomy-callouts_retro-pixel.png",
+    "label": "Anatomy Callouts \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1319,
+    "file": "319_xray_y2k-chrome.png",
+    "label": "Xray \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1320,
+    "file": "320_japanese-poster_memphis-pop.png",
+    "label": "Japanese Poster \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1321,
+    "file": "321_italian-poster_bauhaus-primary.png",
+    "label": "Italian Poster \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1322,
+    "file": "322_racing-team_art-deco-gold.png",
+    "label": "Racing Team \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1323,
+    "file": "323_rally-livery_art-nouveau-vine.png",
+    "label": "Rally Livery \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1324,
+    "file": "324_polaroid_swiss-grid.png",
+    "label": "Polaroid \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1325,
+    "file": "325_instant-camera_punk-photocopy.png",
+    "label": "Instant Camera \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1326,
+    "file": "326_bento-grid_zine-collage.png",
+    "label": "Bento Grid \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1327,
+    "file": "327_magazine-cover_vaporwave-gradient.png",
+    "label": "Magazine Cover \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1328,
+    "file": "328_zine-cover_matrix-green.png",
+    "label": "Zine Cover \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1329,
+    "file": "329_punk-poster_graph-paper.png",
+    "label": "Punk Poster \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1330,
+    "file": "330_infrastructure-icon_holographic.png",
+    "label": "Infrastructure Icon \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1331,
+    "file": "331_k8s-style_chrome-3d-render.png",
+    "label": "K8s Style \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1332,
+    "file": "332_dns-tree_clay-3d-render.png",
+    "label": "Dns Tree \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1333,
+    "file": "333_router-flow_photoreal-bike.png",
+    "label": "Router Flow \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1334,
+    "file": "334_ipv4-puzzle_flat-duotone-mint.png",
+    "label": "Ipv4 Puzzle \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1335,
+    "file": "335_ipv6-flow_flat-duotone-coral.png",
+    "label": "Ipv6 Flow \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1336,
+    "file": "336_quantum-shield_flat-duotone-yellow.png",
+    "label": "Quantum Shield \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1337,
+    "file": "337_lattice_minimal-line.png",
+    "label": "Lattice \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1338,
+    "file": "338_regions-five_minimal-line-thick.png",
+    "label": "Regions Five \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1339,
+    "file": "339_globe-mesh_scrappy-handdrawn.png",
+    "label": "Globe Mesh \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1340,
+    "file": "340_fade-in-out_crayon.png",
+    "label": "Fade In Out \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1341,
+    "file": "341_container-orchestra_embroidery.png",
+    "label": "Container Orchestra \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1342,
+    "file": "342_portal-icon_denim-patch.png",
+    "label": "Portal Icon \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1343,
+    "file": "343_flap-board_graffiti-spray.png",
+    "label": "Flap Board \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1344,
+    "file": "344_dot-display_postage-vintage.png",
+    "label": "Dot Display \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1345,
+    "file": "345_bike-classic_mid-century.png",
+    "label": "Bike Classic \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1346,
+    "file": "346_bike-modern_scandi-minimal.png",
+    "label": "Bike Modern \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1347,
+    "file": "347_bike-scooter_japanese-modern.png",
+    "label": "Bike Scooter \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1348,
+    "file": "348_bike-cafe-racer_mexican-folk.png",
+    "label": "Bike Cafe Racer \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1349,
+    "file": "349_bike-cruiser_nordic-runic.png",
+    "label": "Bike Cruiser \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1350,
+    "file": "350_bike-russian_typewriter-mono.png",
+    "label": "Bike Russian \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1351,
+    "file": "351_bike-iso_mono-flat.png",
+    "label": "Bike Iso \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1352,
+    "file": "352_bike-front_dark-terminal.png",
+    "label": "Bike Front \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1353,
+    "file": "353_bike-rear_brutalist-paper.png",
+    "label": "Bike Rear \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1354,
+    "file": "354_bike-silhouette_aurora-warm.png",
+    "label": "Bike Silhouette \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1355,
+    "file": "355_docker-bike_editorial-mono.png",
+    "label": "Docker Bike \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1356,
+    "file": "356_docker-bike-stacked_neon-pink-cyan.png",
+    "label": "Docker Bike Stacked \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1357,
+    "file": "357_docker-whale-bike_synthwave.png",
+    "label": "Docker Whale Bike \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1358,
+    "file": "358_docker-whale-sidecar_vintage-cream.png",
+    "label": "Docker Whale Sidecar \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1359,
+    "file": "359_docker-cube-bike_blueprint-cyan.png",
+    "label": "Docker Cube Bike \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1360,
+    "file": "360_ip-tag_isometric-pastel.png",
+    "label": "Ip Tag \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1361,
+    "file": "361_ip-license_cyberpunk-magenta.png",
+    "label": "Ip License \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1362,
+    "file": "362_ipv6-license_riso-print.png",
+    "label": "Ipv6 License \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1363,
+    "file": "363_ip-balloon_paper-cut-layered.png",
+    "label": "Ip Balloon \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1364,
+    "file": "364_ip-flag_watercolor-soft.png",
+    "label": "Ip Flag \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1365,
+    "file": "365_tunnel-pipe_ink-sumi.png",
+    "label": "Tunnel Pipe \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1366,
+    "file": "366_tunnel-wormhole_etching-engraved.png",
+    "label": "Tunnel Wormhole \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1367,
+    "file": "367_tunnel-pipes_retro-orange-brown.png",
+    "label": "Tunnel Pipes \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1368,
+    "file": "368_tunnel-route_retro-pixel.png",
+    "label": "Tunnel Route \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1369,
+    "file": "369_network-graph_y2k-chrome.png",
+    "label": "Network Graph \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1370,
+    "file": "370_network-mesh_memphis-pop.png",
+    "label": "Network Mesh \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1371,
+    "file": "371_network-radar_bauhaus-primary.png",
+    "label": "Network Radar \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1372,
+    "file": "372_globe-bike_art-deco-gold.png",
+    "label": "Globe Bike \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1373,
+    "file": "373_globe-pins_art-nouveau-vine.png",
+    "label": "Globe Pins \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1374,
+    "file": "374_globe-orbit_swiss-grid.png",
+    "label": "Globe Orbit \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1375,
+    "file": "375_globe-flat-map_punk-photocopy.png",
+    "label": "Globe Flat Map \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1376,
+    "file": "376_padlock-bike_zine-collage.png",
+    "label": "Padlock Bike \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1377,
+    "file": "377_shield-bike_vaporwave-gradient.png",
+    "label": "Shield Bike \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1378,
+    "file": "378_key-bike_matrix-green.png",
+    "label": "Key Bike \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1379,
+    "file": "379_terminal-window_graph-paper.png",
+    "label": "Terminal Window \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1380,
+    "file": "380_terminal-ascii_holographic.png",
+    "label": "Terminal Ascii \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1381,
+    "file": "381_terminal-cursor_chrome-3d-render.png",
+    "label": "Terminal Cursor \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1382,
+    "file": "382_yaml-snippet_clay-3d-render.png",
+    "label": "Yaml Snippet \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1383,
+    "file": "383_cli-prompt_photoreal-bike.png",
+    "label": "Cli Prompt \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1384,
+    "file": "384_monogram-s_flat-duotone-mint.png",
+    "label": "Monogram S \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1385,
+    "file": "385_monogram-s-shield_flat-duotone-coral.png",
+    "label": "Monogram S Shield \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1386,
+    "file": "386_hexagon-logo_flat-duotone-yellow.png",
+    "label": "Hexagon Logo \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1387,
+    "file": "387_circle-logo_minimal-line.png",
+    "label": "Circle Logo \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1388,
+    "file": "388_square-logo_minimal-line-thick.png",
+    "label": "Square Logo \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1389,
+    "file": "389_container-wheels_scrappy-handdrawn.png",
+    "label": "Container Wheels \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1390,
+    "file": "390_cargo-bike_crayon.png",
+    "label": "Cargo Bike \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1391,
+    "file": "391_delivery-truck_embroidery.png",
+    "label": "Delivery Truck \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1392,
+    "file": "392_packet-flow_denim-patch.png",
+    "label": "Packet Flow \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1393,
+    "file": "393_data-stream_graffiti-spray.png",
+    "label": "Data Stream \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1394,
+    "file": "394_ones-zeros_postage-vintage.png",
+    "label": "Ones Zeros \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1395,
+    "file": "395_highway-icon_mid-century.png",
+    "label": "Highway Icon \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1396,
+    "file": "396_route-marker_scandi-minimal.png",
+    "label": "Route Marker \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1397,
+    "file": "397_stamp-passport_japanese-modern.png",
+    "label": "Stamp Passport \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1398,
+    "file": "398_wax-seal_mexican-folk.png",
+    "label": "Wax Seal \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1399,
+    "file": "399_patch-embroidered_nordic-runic.png",
+    "label": "Patch Embroidered \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1400,
+    "file": "400_decal-sticker_typewriter-mono.png",
+    "label": "Decal Sticker \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1401,
+    "file": "401_antenna-bike_mono-flat.png",
+    "label": "Antenna Bike \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1402,
+    "file": "402_beacon_dark-terminal.png",
+    "label": "Beacon \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1403,
+    "file": "403_plug-socket_brutalist-paper.png",
+    "label": "Plug Socket \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1404,
+    "file": "404_origami_aurora-warm.png",
+    "label": "Origami \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1405,
+    "file": "405_paper-cut_editorial-mono.png",
+    "label": "Paper Cut \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1406,
+    "file": "406_pixel-art_neon-pink-cyan.png",
+    "label": "Pixel Art \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1407,
+    "file": "407_vector-flat_synthwave.png",
+    "label": "Vector Flat \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1408,
+    "file": "408_line-art_vintage-cream.png",
+    "label": "Line Art \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1409,
+    "file": "409_blueprint_blueprint-cyan.png",
+    "label": "Blueprint \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1410,
+    "file": "410_schematic_isometric-pastel.png",
+    "label": "Schematic \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1411,
+    "file": "411_low-poly_cyberpunk-magenta.png",
+    "label": "Low Poly \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1412,
+    "file": "412_3d-render_riso-print.png",
+    "label": "3d Render \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1413,
+    "file": "413_chrome-3d_paper-cut-layered.png",
+    "label": "Chrome 3d \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1414,
+    "file": "414_metallic-3d_watercolor-soft.png",
+    "label": "Metallic 3d \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1415,
+    "file": "415_graffiti_ink-sumi.png",
+    "label": "Graffiti \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1416,
+    "file": "416_stencil_etching-engraved.png",
+    "label": "Stencil \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1417,
+    "file": "417_retro-80s_retro-orange-brown.png",
+    "label": "Retro 80s \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1418,
+    "file": "418_retro-70s_retro-pixel.png",
+    "label": "Retro 70s \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1419,
+    "file": "419_retro-90s_y2k-chrome.png",
+    "label": "Retro 90s \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1420,
+    "file": "420_retro-50s_memphis-pop.png",
+    "label": "Retro 50s \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1421,
+    "file": "421_hand-drawn_bauhaus-primary.png",
+    "label": "Hand Drawn \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1422,
+    "file": "422_watercolor_art-deco-gold.png",
+    "label": "Watercolor \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1423,
+    "file": "423_ink-wash_art-nouveau-vine.png",
+    "label": "Ink Wash \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1424,
+    "file": "424_charcoal_swiss-grid.png",
+    "label": "Charcoal \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1425,
+    "file": "425_aurora-bike_punk-photocopy.png",
+    "label": "Aurora Bike \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1426,
+    "file": "426_aurora-mono_zine-collage.png",
+    "label": "Aurora Mono \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1427,
+    "file": "427_brutalist-poster_vaporwave-gradient.png",
+    "label": "Brutalist Poster \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1428,
+    "file": "428_brutalist-newspaper_matrix-green.png",
+    "label": "Brutalist Newspaper \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1429,
+    "file": "429_editorial-clean_graph-paper.png",
+    "label": "Editorial Clean \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1430,
+    "file": "430_editorial-serif_holographic.png",
+    "label": "Editorial Serif \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1431,
+    "file": "431_neon-tube_chrome-3d-render.png",
+    "label": "Neon Tube \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1432,
+    "file": "432_neon-electric_clay-3d-render.png",
+    "label": "Neon Electric \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1433,
+    "file": "433_dot-matrix_photoreal-bike.png",
+    "label": "Dot Matrix \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1434,
+    "file": "434_halftone_flat-duotone-mint.png",
+    "label": "Halftone \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1435,
+    "file": "435_crest_flat-duotone-coral.png",
+    "label": "Crest \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1436,
+    "file": "436_emblem_flat-duotone-yellow.png",
+    "label": "Emblem \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1437,
+    "file": "437_club-badge_minimal-line.png",
+    "label": "Club Badge \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1438,
+    "file": "438_topology-tree_minimal-line-thick.png",
+    "label": "Topology Tree \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1439,
+    "file": "439_topology-star_scrappy-handdrawn.png",
+    "label": "Topology Star \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1440,
+    "file": "440_topology-ring_crayon.png",
+    "label": "Topology Ring \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1441,
+    "file": "441_constellation_embroidery.png",
+    "label": "Constellation \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1442,
+    "file": "442_star-trail_denim-patch.png",
+    "label": "Star Trail \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1443,
+    "file": "443_sidecar-icon-only_graffiti-spray.png",
+    "label": "Sidecar Icon Only \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1444,
+    "file": "444_sidecar-empty_postage-vintage.png",
+    "label": "Sidecar Empty \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1445,
+    "file": "445_sidecar-cargo_mid-century.png",
+    "label": "Sidecar Cargo \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1446,
+    "file": "446_road-trip_scandi-minimal.png",
+    "label": "Road Trip \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1447,
+    "file": "447_city-skyline_japanese-modern.png",
+    "label": "City Skyline \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1448,
+    "file": "448_mountain_mexican-folk.png",
+    "label": "Mountain \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1449,
+    "file": "449_postage-stamp_nordic-runic.png",
+    "label": "Postage Stamp \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1450,
+    "file": "450_currency-note_typewriter-mono.png",
+    "label": "Currency Note \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1451,
+    "file": "451_etching_mono-flat.png",
+    "label": "Etching \u00b7 Mono Flat",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1452,
+    "file": "452_typography-only_dark-terminal.png",
+    "label": "Typography Only \u00b7 Dark Terminal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1453,
+    "file": "453_ligature_brutalist-paper.png",
+    "label": "Ligature \u00b7 Brutalist Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1454,
+    "file": "454_split-color-text_aurora-warm.png",
+    "label": "Split Color Text \u00b7 Aurora Warm",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1455,
+    "file": "455_outline-text_editorial-mono.png",
+    "label": "Outline Text \u00b7 Editorial Mono",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1456,
+    "file": "456_3d-text_neon-pink-cyan.png",
+    "label": "3d Text \u00b7 Neon Pink Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1457,
+    "file": "457_brand-icon-tag_synthwave.png",
+    "label": "Brand Icon Tag \u00b7 Synthwave",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1458,
+    "file": "458_sticker-pack_vintage-cream.png",
+    "label": "Sticker Pack \u00b7 Vintage Cream",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1459,
+    "file": "459_data-center_blueprint-cyan.png",
+    "label": "Data Center \u00b7 Blueprint Cyan",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1460,
+    "file": "460_server-rack_isometric-pastel.png",
+    "label": "Server Rack \u00b7 Isometric Pastel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1461,
+    "file": "461_packet-envelope_cyberpunk-magenta.png",
+    "label": "Packet Envelope \u00b7 Cyberpunk Magenta",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1462,
+    "file": "462_mailbag_riso-print.png",
+    "label": "Mailbag \u00b7 Riso Print",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1463,
+    "file": "463_compass-bike_paper-cut-layered.png",
+    "label": "Compass Bike \u00b7 Paper Cut Layered",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1464,
+    "file": "464_anchor-bike_watercolor-soft.png",
+    "label": "Anchor Bike \u00b7 Watercolor Soft",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1465,
+    "file": "465_speedometer_ink-sumi.png",
+    "label": "Speedometer \u00b7 Ink Sumi",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1466,
+    "file": "466_tachometer_etching-engraved.png",
+    "label": "Tachometer \u00b7 Etching Engraved",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1467,
+    "file": "467_typographic-sidecar_retro-orange-brown.png",
+    "label": "Typographic Sidecar \u00b7 Retro Orange Brown",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1468,
+    "file": "468_hidden-bike_retro-pixel.png",
+    "label": "Hidden Bike \u00b7 Retro Pixel",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1469,
+    "file": "469_negative-space_y2k-chrome.png",
+    "label": "Negative Space \u00b7 Y2k Chrome",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1470,
+    "file": "470_origin-marker_memphis-pop.png",
+    "label": "Origin Marker \u00b7 Memphis Pop",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1471,
+    "file": "471_ping-marker_bauhaus-primary.png",
+    "label": "Ping Marker \u00b7 Bauhaus Primary",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1472,
+    "file": "472_speed-lines_art-deco-gold.png",
+    "label": "Speed Lines \u00b7 Art Deco Gold",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1473,
+    "file": "473_burnout_art-nouveau-vine.png",
+    "label": "Burnout \u00b7 Art Nouveau Vine",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1474,
+    "file": "474_art-deco_swiss-grid.png",
+    "label": "Art Deco \u00b7 Swiss Grid",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1475,
+    "file": "475_art-nouveau_punk-photocopy.png",
+    "label": "Art Nouveau \u00b7 Punk Photocopy",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1476,
+    "file": "476_bauhaus_zine-collage.png",
+    "label": "Bauhaus \u00b7 Zine Collage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1477,
+    "file": "477_memphis_vaporwave-gradient.png",
+    "label": "Memphis \u00b7 Vaporwave Gradient",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1478,
+    "file": "478_vaporwave_matrix-green.png",
+    "label": "Vaporwave \u00b7 Matrix Green",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1479,
+    "file": "479_matrix-rain_graph-paper.png",
+    "label": "Matrix Rain \u00b7 Graph Paper",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1480,
+    "file": "480_circuit-board_holographic.png",
+    "label": "Circuit Board \u00b7 Holographic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1481,
+    "file": "481_rubber-stamp_chrome-3d-render.png",
+    "label": "Rubber Stamp \u00b7 Chrome 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1482,
+    "file": "482_logo-mark-mono_clay-3d-render.png",
+    "label": "Logo Mark Mono \u00b7 Clay 3d Render",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1483,
+    "file": "483_favicon-style_photoreal-bike.png",
+    "label": "Favicon Style \u00b7 Photoreal Bike",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1484,
+    "file": "484_character-mascot_flat-duotone-mint.png",
+    "label": "Character Mascot \u00b7 Flat Duotone Mint",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1485,
+    "file": "485_mascot-wave_flat-duotone-coral.png",
+    "label": "Mascot Wave \u00b7 Flat Duotone Coral",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1486,
+    "file": "486_retro-arcade_flat-duotone-yellow.png",
+    "label": "Retro Arcade \u00b7 Flat Duotone Yellow",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1487,
+    "file": "487_game-boy_minimal-line.png",
+    "label": "Game Boy \u00b7 Minimal Line",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1488,
+    "file": "488_medieval-shield_minimal-line-thick.png",
+    "label": "Medieval Shield \u00b7 Minimal Line Thick",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1489,
+    "file": "489_heraldic_scrappy-handdrawn.png",
+    "label": "Heraldic \u00b7 Scrappy Handdrawn",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1490,
+    "file": "490_anatomy-callouts_crayon.png",
+    "label": "Anatomy Callouts \u00b7 Crayon",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1491,
+    "file": "491_xray_embroidery.png",
+    "label": "Xray \u00b7 Embroidery",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1492,
+    "file": "492_japanese-poster_denim-patch.png",
+    "label": "Japanese Poster \u00b7 Denim Patch",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1493,
+    "file": "493_italian-poster_graffiti-spray.png",
+    "label": "Italian Poster \u00b7 Graffiti Spray",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1494,
+    "file": "494_racing-team_postage-vintage.png",
+    "label": "Racing Team \u00b7 Postage Vintage",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1495,
+    "file": "495_rally-livery_mid-century.png",
+    "label": "Rally Livery \u00b7 Mid Century",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1496,
+    "file": "496_polaroid_scandi-minimal.png",
+    "label": "Polaroid \u00b7 Scandi Minimal",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1497,
+    "file": "497_instant-camera_japanese-modern.png",
+    "label": "Instant Camera \u00b7 Japanese Modern",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1498,
+    "file": "498_bento-grid_mexican-folk.png",
+    "label": "Bento Grid \u00b7 Mexican Folk",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1499,
+    "file": "499_magazine-cover_nordic-runic.png",
+    "label": "Magazine Cover \u00b7 Nordic Runic",
+    "dir": "logos-v2"
+  },
+  {
+    "id": 1500,
+    "file": "500_zine-cover_typewriter-mono.png",
+    "label": "Zine Cover \u00b7 Typewriter Mono",
+    "dir": "logos-v2"
+  }
+]
