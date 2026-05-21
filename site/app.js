@@ -1004,7 +1004,7 @@ async function loadVotesFromSupabase() {
   try {
     // Load aggregate counts
     const { data: aggData, error: aggErr } = await sb
-      .from('sidecar_votes')
+      .from('castle_votes')
       .select('logo_id, up_votes, down_votes');
 
     if (aggErr) throw aggErr;
@@ -1018,7 +1018,7 @@ async function loadVotesFromSupabase() {
 
     // Load this session's votes
     const { data: userVoteData, error: userErr } = await sb
-      .from('sidecar_user_votes')
+      .from('castle_user_votes')
       .select('logo_id, direction')
       .eq('session_id', SESSION_ID);
 
@@ -1047,7 +1047,7 @@ async function persistVote(id, dir, wasVote) {
     if (isSameDir) {
       // Toggle off: delete user vote row, decrement count
       await sb
-        .from('sidecar_user_votes')
+        .from('castle_user_votes')
         .delete()
         .eq('logo_id', id)
         .eq('session_id', SESSION_ID);
@@ -1057,7 +1057,7 @@ async function persistVote(id, dir, wasVote) {
     } else {
       // Upsert user vote (insert or update direction)
       await sb
-        .from('sidecar_user_votes')
+        .from('castle_user_votes')
         .upsert(
           { logo_id: id, session_id: SESSION_ID, direction: dir },
           { onConflict: 'logo_id,session_id' }
@@ -1504,7 +1504,7 @@ loadVotesFromSupabase();
 async function loadEditsFromSupabase() {
   try {
     const { data, error } = await sb
-      .from('sidecar_edits')
+      .from('castle_edits')
       .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, is_mint, created_at')
       .eq('status', 'done')
       .order('created_at', { ascending: false });
@@ -1516,7 +1516,7 @@ async function loadEditsFromSupabase() {
     let userVoteMap = {};
     if (editIds.length > 0) {
       const { data: uvData } = await sb
-        .from('sidecar_edit_user_votes')
+        .from('castle_edit_user_votes')
         .select('edit_id, direction')
         .eq('session_id', SESSION_ID)
         .in('edit_id', editIds);
@@ -1675,7 +1675,7 @@ async function castEditVote(editId, dir) {
   // Persist
   try {
     if (isSameDir) {
-      await sb.from('sidecar_edit_user_votes').delete()
+      await sb.from('castle_edit_user_votes').delete()
         .eq('edit_id', editId).eq('session_id', SESSION_ID);
       await sb.rpc('adjust_edit_votes', {
         p_edit_id: editId,
@@ -1683,7 +1683,7 @@ async function castEditVote(editId, dir) {
         p_down_delta: dir === 'down' ? -1 : 0,
       });
     } else {
-      await sb.from('sidecar_edit_user_votes').upsert(
+      await sb.from('castle_edit_user_votes').upsert(
         { edit_id: editId, session_id: SESSION_ID, direction: dir },
         { onConflict: 'edit_id,session_id' }
       );
@@ -1859,7 +1859,7 @@ function pollEditJob(jobId) {
 
     try {
       const { data, error } = await sb
-        .from('sidecar_edits')
+        .from('castle_edits')
         .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, error_msg')
         .eq('id', jobId)
         .single();
@@ -2037,7 +2037,7 @@ document.getElementById('create-prompt-input').addEventListener('keydown', e => 
 async function loadCreatedFromSupabase() {
   try {
     const { data } = await sb
-      .from('sidecar_edits')
+      .from('castle_edits')
       .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status')
       .eq('status', 'done')
       .is('parent_logo_id', null)
