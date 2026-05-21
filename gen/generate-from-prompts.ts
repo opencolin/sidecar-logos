@@ -5,8 +5,12 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const REPO_ROOT = join(import.meta.dirname, '..');
-const PROMPTS_FILE = join(import.meta.dirname, 'prompts-v2.json');
-const OUTPUT_DIR = join(REPO_ROOT, 'logos-v2');
+const PROMPTS_FILE = process.env.PROMPTS_FILE
+  ? join(import.meta.dirname, process.env.PROMPTS_FILE)
+  : join(import.meta.dirname, 'prompts-v2.json');
+const OUTPUT_DIR = process.env.OUTPUT_DIR
+  ? join(REPO_ROOT, process.env.OUTPUT_DIR)
+  : join(REPO_ROOT, 'logos-v2');
 const MODEL = 'google/gemini-3.1-flash-image-preview';
 
 interface PromptEntry {
