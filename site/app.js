@@ -1677,78 +1677,137 @@ async function spawnVariations({ id, imageUrl, label }) {
 
 // ===== SORT & FILTER =====
 function getSortedFiltered() {
-  let list = LOGOS.filter(l =>
-    !searchQuery || l.label.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Build unified list: every LOGOS entry + every visible edit card.
+  // Each entry carries a uniform shape so the sort + render dispatch is simple.
+  const q = (searchQuery || '').toLowerCase();
+
+  const logoEntries = LOGOS
+    .filter(l => !q || l.label.toLowerCase().includes(q))
+    .map(l => {
+      const v = votes[l.id] || { up: 0, down: 0 };
+      const score = (v.up || 0) - (v.down || 0);
+      const total = (v.up || 0) + (v.down || 0);
+      const ratio = total === 0 ? 0 : Math.min(v.up, v.down) / Math.max(v.up, v.down);
+      return {
+        kind: 'logo',
+        id: l.id,
+        ref: l,
+        score,
+        controversy: total * ratio,
+        // Treat all LOGOS as having no real timestamp; use id as a stable proxy
+        // so 'newest' sorts higher-id LOGOS above lower-id ones.
+        createdAt: 0,
+        idProxy: l.id,
+      };
+    });
+
+  const editEntries = Object.values(editCards)
+    .filter(e => e.status === 'done' && e.imageDataUrl)
+    .filter(e => !q || (e.prompt || '').toLowerCase().includes(q))
+    .map(e => {
+      const up = e.up || 0, down = e.down || 0;
+      const score = up - down;
+      const total = up + down;
+      const ratio = total === 0 ? 0 : Math.min(up, down) / Math.max(up, down);
+      return {
+        kind: 'edit',
+        id: e.id,
+        ref: e,
+        score,
+        controversy: total * ratio,
+        createdAt: e.createdAt || 0,
+        idProxy: 0, // edits don't share LOGOS' numeric id space
+      };
+    });
+
+  const list = [...logoEntries, ...editEntries];
 
   if (sortMode === 'votes') {
-    list.sort((a, b) => {
-      const sd = getScore(b.id) - getScore(a.id);
-      if (sd !== 0) return sd;
-      return a.id - b.id;
-    });
+    // Highest score first; ties go to newer (edits with createdAt > 0), then higher id
+    list.sort((a, b) => (b.score - a.score) || (b.createdAt - a.createdAt) || (b.idProxy - a.idProxy));
   } else if (sortMode === 'newest') {
-    list.sort((a, b) => b.id - a.id);
+    // Newest first: edit cards (real createdAt) above LOGOS (createdAt=0).
+    // Within LOGOS, higher id wins. Within edits, newer createdAt wins.
+    list.sort((a, b) => (b.createdAt - a.createdAt) || (b.idProxy - a.idProxy));
   } else if (sortMode === 'controversial') {
-    list.sort((a, b) => getControversy(b.id) - getControversy(a.id));
+    list.sort((a, b) => (b.controversy - a.controversy) || (b.createdAt - a.createdAt));
   }
 
   return list;
 }
 
 // ===== RENDER =====
+function clearGridChildren(grid) {
+  while (grid.firstChild) grid.removeChild(grid.firstChild);
+}
+
 function render() {
-  const list = getSortedFiltered();
-  filteredIds = list.map(l => l.id);
+  const entries = getSortedFiltered();
+  // filteredIds still references LOGOS only (used by lightbox prev/next nav).
+  filteredIds = entries.filter(e => e.kind === 'logo').map(e => e.id);
   const grid = document.getElementById('logo-grid');
   const noResults = document.getElementById('no-results');
 
-  if (list.length === 0) {
-    grid.innerHTML = '';
+  if (entries.length === 0) {
+    clearGridChildren(grid);
     noResults.hidden = false;
     return;
   }
   noResults.hidden = true;
 
-  // Build all cards at once for performance
   const fragment = document.createDocumentFragment();
-  list.forEach((logo, idx) => {
-    const existing = document.getElementById(`card-${logo.id}`);
-    if (existing) {
-      // Update in place (just score + vote state)
-      updateCard(logo.id);
-      fragment.appendChild(existing);
+  entries.forEach((entry, idx) => {
+    if (entry.kind === 'logo') {
+      const existing = document.getElementById(`card-${entry.id}`);
+      if (existing) {
+        updateCard(entry.id);
+        fragment.appendChild(existing);
+      } else {
+        fragment.appendChild(createCard(entry.ref, idx));
+      }
     } else {
-      fragment.appendChild(createCard(logo, idx));
+      // edit card (variation, mint, created)
+      const existing = document.getElementById(`edit-card-${entry.id}`);
+      const e = entry.ref;
+      if (existing) {
+        if (!e.isMint) updateEditCard(entry.id);
+        fragment.appendChild(existing);
+      } else {
+        if (e.isMint) {
+          const card = buildMintCard(e);
+          fragment.appendChild(card);
+        } else {
+          fragment.appendChild(createEditCard(e));
+        }
+      }
     }
   });
-  grid.innerHTML = '';
+  clearGridChildren(grid);
   grid.appendChild(fragment);
 
-  // Apply rank badges
-  list.forEach((logo, idx) => {
-    const card = document.getElementById(`card-${logo.id}`);
+  // Apply rank badges (only meaningful for sortMode='votes', and only to LOGOS cards)
+  let logoIdx = 0;
+  entries.forEach((entry) => {
+    if (entry.kind !== 'logo') return;
+    const card = document.getElementById(`card-${entry.id}`);
     if (!card) return;
     card.classList.remove('rank-1', 'rank-2', 'rank-3');
     const badge = card.querySelector('.rank-badge');
     if (sortMode === 'votes') {
-      const score = getScore(logo.id);
+      const score = entry.score;
       if (score > 0) {
-        if (idx === 0) { card.classList.add('rank-1'); if (badge) badge.textContent = '🥇 #1'; }
-        else if (idx === 1) { card.classList.add('rank-2'); if (badge) badge.textContent = '🥈 #2'; }
-        else if (idx === 2) { card.classList.add('rank-3'); if (badge) badge.textContent = '🥉 #3'; }
-        else if (badge) badge.textContent = `#${idx + 1}`;
+        if (logoIdx === 0) { card.classList.add('rank-1'); if (badge) badge.textContent = '🥇 #1'; }
+        else if (logoIdx === 1) { card.classList.add('rank-2'); if (badge) badge.textContent = '🥈 #2'; }
+        else if (logoIdx === 2) { card.classList.add('rank-3'); if (badge) badge.textContent = '🥉 #3'; }
+        else if (badge) badge.textContent = `#${logoIdx + 1}`;
       } else {
-        if (badge) badge.textContent = `#${idx + 1}`;
+        if (badge) badge.textContent = `#${logoIdx + 1}`;
       }
     } else {
-      if (badge) badge.textContent = `#${idx + 1}`;
+      if (badge) badge.textContent = `#${logoIdx + 1}`;
     }
+    logoIdx++;
   });
-
-  // Re-render any AI edit/created cards that were wiped by grid.innerHTML = ''
-  if (typeof renderEditCards === 'function') renderEditCards();
-  if (typeof renderCreatedCards === 'function') renderCreatedCards();
 }
 
 function renderCreatedCards() {
@@ -2113,39 +2172,12 @@ async function loadEditsFromSupabase() {
 }
 
 // ===== RENDER EDIT CARDS =====
+// Now a thin wrapper that triggers a full unified re-render. The render()
+// function builds the grid from LOGOS + editCards together so the sort
+// mode is respected (Top Voted sorts everything by score; Newest sorts
+// everything by createdAt; etc.).
 function renderEditCards() {
-  const grid = document.getElementById('logo-grid');
-
-  // Collect freshly-needed DOM cards (those not yet rendered).
-  // editCards is populated newest-first by loadEditsFromSupabase
-  // (.order created_at desc) and by Realtime inserts (new entries get
-  // appended to the object, but we still want them at the visual top).
-  const newCards = [];
-  Object.values(editCards).forEach(edit => {
-    const existing = document.getElementById(`edit-card-${edit.id}`);
-    if (existing) {
-      if (!edit.isMint) updateEditCard(edit.id);
-      return;
-    }
-    if (edit.status !== 'done' || !edit.imageDataUrl) return;
-    if (edit.isMint) {
-      renderMintCard(edit);
-      return;
-    }
-    newCards.push({ edit, card: createEditCard(edit) });
-  });
-
-  // Sort by created_at if available, else by isLive recency. Newest first.
-  newCards.sort((a, b) => {
-    const ta = a.edit.createdAt || (a.edit.isLive ? 1e15 : 0);
-    const tb = b.edit.createdAt || (b.edit.isLive ? 1e15 : 0);
-    return tb - ta; // newest first
-  });
-
-  // Prepend in reverse so the newest ends up at position 0 of the grid.
-  for (let i = newCards.length - 1; i >= 0; i--) {
-    grid.prepend(newCards[i].card);
-  }
+  render();
 }
 
 function createEditCard(edit) {
@@ -2596,17 +2628,17 @@ async function submitCreate() {
 }
 
 function renderCreatedCard(edit) {
-  // Created cards go at the very top of the grid
-  const existingCard = document.getElementById(`edit-card-${edit.id}`);
-  if (existingCard) return;
-
-  const card = createEditCard(edit);
-  // Override the AI badge text for created cards
-  const badge = card.querySelector('.ai-badge');
-  if (badge) badge.textContent = '✦ Created';
-
-  const grid = document.getElementById('logo-grid');
-  grid.prepend(card);
+  // Trigger a full render — the unified render() will sort this in alongside
+  // LOGOS and other edits by the current sortMode. In 'newest' mode it lands
+  // at the top; in 'votes' mode it sorts by its score.
+  render();
+  // Best-effort badge tweak after render
+  requestAnimationFrame(() => {
+    const card = document.getElementById(`edit-card-${edit.id}`);
+    if (!card) return;
+    const badge = card.querySelector('.ai-badge');
+    if (badge) badge.textContent = '✦ Created';
+  });
 }
 
 // Quick prompt buttons — create modal
@@ -2713,14 +2745,21 @@ async function submitMint(logoId, imageUrl, btn, label) {
 }
 
 function renderMintCard(edit) {
-  const grid = document.getElementById('logo-grid');
-  if (!grid) return;
-  const existingCard = document.getElementById(`edit-card-${edit.id}`);
-  if (existingCard) return;
+  // Build the card and insert via the unified renderer.
+  const card = buildMintCard(edit);
+  if (!card) return;
+  // Trigger a full render so the new mint card lands in the correct position
+  // based on current sort mode (newest puts it at the top; votes uses score).
+  render();
+  // Scroll into view if we can find it after render
+  const placed = document.getElementById(`edit-card-${edit.id}`);
+  if (placed) placed.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
+function buildMintCard(edit) {
   const parentLogo = LOGOS.find(l => l.id === edit.parentId);
   const parentLabel = edit.label || (parentLogo ? parentLogo.label : `Logo #${edit.parentId}`);
-  const downloadName = parentLabel.replace(/[^a-z0-9]/gi, '-').toLowerCase() + '-icon.png';
+  const safeName = String(parentLabel).replace(/[^a-z0-9]/gi, '-').toLowerCase() + '-icon.png';
 
   const card = document.createElement('article');
   card.className = 'logo-card mint-card';
@@ -2729,26 +2768,56 @@ function renderMintCard(edit) {
   card.setAttribute('aria-label', `Minted icon for ${parentLabel}`);
   card.style.position = 'relative';
 
-  card.innerHTML = `
-    <span class="mint-badge">✦ Icon</span>
-    <div class="logo-img-wrap mint-img-wrap">
-      <img class="logo-img" src="${edit.imageDataUrl}" alt="Transparent icon for ${parentLabel}" loading="lazy" />
-    </div>
-    <div class="logo-body">
-      <p class="logo-label">${parentLabel}</p>
-      <p class="edit-prompt-tag">Transparent PNG icon</p>
-      <a class="mint-download-btn" href="${edit.imageDataUrl}" download="${downloadName}" target="_blank">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v13M6 11l6 6 6-6"/><path d="M3 20h18"/></svg>
-        Download PNG
-      </a>
-    </div>
-  `;
+  // Build DOM safely without innerHTML so user-derived label can't inject markup.
+  const badge = document.createElement('span');
+  badge.className = 'mint-badge';
+  badge.textContent = '✦ Icon';
+  card.appendChild(badge);
 
-  // Always prepend so newest minted icons appear at the top.
-  grid.prepend(card);
+  const wrap = document.createElement('div');
+  wrap.className = 'logo-img-wrap mint-img-wrap';
+  const img = document.createElement('img');
+  img.className = 'logo-img';
+  img.src = edit.imageDataUrl;
+  img.alt = `Transparent icon for ${parentLabel}`;
+  img.loading = 'lazy';
+  wrap.appendChild(img);
+  card.appendChild(wrap);
 
-  // Scroll into view
-  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const body = document.createElement('div');
+  body.className = 'logo-body';
+  const labelEl = document.createElement('p');
+  labelEl.className = 'logo-label';
+  labelEl.textContent = parentLabel;
+  body.appendChild(labelEl);
+  const tagEl = document.createElement('p');
+  tagEl.className = 'edit-prompt-tag';
+  tagEl.textContent = 'Transparent PNG icon';
+  body.appendChild(tagEl);
+  const dl = document.createElement('a');
+  dl.className = 'mint-download-btn';
+  dl.href = edit.imageDataUrl;
+  dl.setAttribute('download', safeName);
+  dl.target = '_blank';
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', '13');
+  svg.setAttribute('height', '13');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2.5');
+  const p1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p1.setAttribute('d', 'M12 3v13M6 11l6 6 6-6');
+  svg.appendChild(p1);
+  const p2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p2.setAttribute('d', 'M3 20h18');
+  svg.appendChild(p2);
+  dl.appendChild(svg);
+  dl.appendChild(document.createTextNode(' Download PNG'));
+  body.appendChild(dl);
+  card.appendChild(body);
+
+  return card;
 }
 
 // ===== LOAD EDITS ON INIT =====
