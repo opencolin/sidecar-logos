@@ -1491,7 +1491,7 @@ const SESSION_ID = crypto.randomUUID();
 
 // ===== STATE =====
 let votes = {}; // { id: { up: 0, down: 0, userVote: null } }
-let sortMode = 'votes';
+let sortMode = 'rule';
 
 // Parse the rule number (1..10) out of a meme's prompt-tag slug. The 155
 // hand-written house memes use `house:R-N-…` (R = rule), the 100 template
