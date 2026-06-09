@@ -1,24 +1,28 @@
-// Vercel serverless function — Mint Icon via Qwen-Image-Edit.
-// Removes background from a logo, returns transparent PNG as base64 data URL.
+// Vercel serverless function — Mint Icon via Vercel AI Gateway
+// (google/gemini-3.1-flash-image-preview). Removes background from an image,
+// returns transparent PNG as base64 data URL.
 
-export const config = { maxDuration: 120 };
+import { generateText } from 'ai';
 
-const QWEN_ENDPOINT = 'https://wildolga.tail7a71df.ts.net:8443/edit';
+export const config = { maxDuration: 60 };
+
+const MODEL = 'google/gemini-3.1-flash-image-preview';
 
 const MINT_PROMPT =
   'Remove the background completely, make it fully transparent. ' +
-  'Keep only the sidecar logo graphic — every line, color, and shape of ' +
-  'the foreground stays intact. Do not change colors or composition. ' +
-  'Do not add a new background. Output: clean PNG with transparent background.';
+  'Keep only the foreground graphic — every line, color, and shape stays intact. ' +
+  'Do not change colors or composition. Do not add a new background. ' +
+  'Output: clean PNG with transparent background.';
 
 async function fetchSourceBytes(url) {
   if (url.startsWith('data:')) {
-    const [, b64] = url.split(',');
-    return Buffer.from(b64, 'base64');
+    const [header, b64] = url.split(',');
+    const m = header.match(/data:([^;]+)/);
+    return { bytes: Buffer.from(b64, 'base64'), mime: m ? m[1] : 'image/png' };
   }
   const r = await fetch(url);
   if (!r.ok) throw new Error(`Source fetch ${r.status}`);
-  return Buffer.from(await r.arrayBuffer());
+  return { bytes: Buffer.from(await r.arrayBuffer()), mime: 'image/png' };
 }
 
 export default async function handler(req, res) {
@@ -31,26 +35,31 @@ export default async function handler(req, res) {
   const { imageUrl } = req.body || {};
   if (!imageUrl) return res.status(400).json({ error: 'Missing imageUrl' });
 
-  let sourceBytes;
+  let source;
   try {
-    sourceBytes = await fetchSourceBytes(imageUrl);
+    source = await fetchSourceBytes(imageUrl);
   } catch (err) {
     return res.status(400).json({ status: 'error', error: err.message });
   }
 
   try {
-    const formData = new FormData();
-    formData.append('prompt', MINT_PROMPT);
-    formData.append('images', new Blob([sourceBytes], { type: 'image/png' }), 'source.png');
-    const qwen = await fetch(QWEN_ENDPOINT, { method: 'POST', body: formData });
-    if (!qwen.ok) {
-      const text = (await qwen.text()).slice(0, 200);
-      return res.status(200).json({ status: 'error', error: `Qwen ${qwen.status}: ${text}` });
+    const result = await generateText({
+      model: MODEL,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', image: source.bytes, mediaType: source.mime },
+          { type: 'text', text: MINT_PROMPT },
+        ],
+      }],
+    });
+    const file = result.files?.find(f => f.mediaType?.startsWith('image/'));
+    if (!file) {
+      return res.status(200).json({ status: 'error', error: result.text?.slice(0, 200) || 'No image returned' });
     }
-    const pngBytes = Buffer.from(await qwen.arrayBuffer());
-    const b64 = pngBytes.toString('base64');
-    return res.status(200).json({ status: 'done', imageDataUrl: `data:image/png;base64,${b64}` });
+    const b64 = file.base64 ?? Buffer.from(file.uint8Array).toString('base64');
+    return res.status(200).json({ status: 'done', imageDataUrl: `data:${file.mediaType};base64,${b64}` });
   } catch (err) {
-    return res.status(200).json({ status: 'error', error: err.message?.slice(0, 300) || 'Qwen request failed' });
+    return res.status(200).json({ status: 'error', error: err.message?.slice(0, 300) || 'AI Gateway error' });
   }
 }

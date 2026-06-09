@@ -1,12 +1,13 @@
 // Vercel serverless function — Spawn 20 AI variations when an image is upvoted.
 //
-// Generates via Qwen-Image-Edit on Tailscale Funnel (free, instruction-based,
-// ~12s/edit, server-side serialized). Each result is uploaded to Supabase
-// Storage and a castle_edits row is inserted IMMEDIATELY as it finishes.
-// Clients subscribed to Supabase Realtime see cards appear progressively.
+// Image generation via Vercel AI Gateway → google/gemini-3.1-flash-image-preview
+// (nano-banana). Each result is uploaded to Supabase Storage and a castle_edits
+// row is inserted IMMEDIATELY as it finishes. Clients subscribed to Supabase
+// Realtime see cards appear progressively.
 //
 // Body: { logoId, imageUrl, sessionId, parentLabel? }
 
+import { generateText } from 'ai';
 import { createClient } from '@supabase/supabase-js';
 
 export const config = { maxDuration: 300 };
@@ -14,10 +15,9 @@ export const config = { maxDuration: 300 };
 const SUPABASE_URL = 'https://mrnccntqmkxjazznejfc.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ybmNjbnRxbWt4amF6em5lamZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMDA3NTksImV4cCI6MjA5MDc3Njc1OX0.T6oFTtYiFTsx6ojuogpZFXAS7tN5-dPzwvmY5V2xFGI';
 const STORAGE_BUCKET = 'edit-images';
-const QWEN_ENDPOINT = 'https://wildolga.tail7a71df.ts.net:8443/edit';
+const MODEL = 'google/gemini-3.1-flash-image-preview';
 
-// 10 same-subject variations — preserve any existing text/captions in the
-// source. Works equally well for memes and logos.
+// 10 same-subject variations — preserve any existing captions/text in the source
 const PERTURBATIONS = [
   { tag: 'var:darker',    prompt: 'Shift the color palette darker and moodier. Keep the same subject, same composition, and preserve any existing text/captions exactly.' },
   { tag: 'var:lighter',   prompt: 'Shift the palette lighter, brighter, more vibrant. Keep the subject, composition, and any existing text/captions intact.' },
@@ -31,9 +31,8 @@ const PERTURBATIONS = [
   { tag: 'var:framed',    prompt: 'Render the subject from a slightly different angle or with mirrored/zoomed-in framing. Same overall style and text.' },
 ];
 
-// 10 creative-riff prompts — use the upvoted image as a STYLE reference only
-// (palette, line weight, typography, mood) but generate an entirely new subject.
-// Mix of meme templates and abstract pictograms.
+// 10 creative-riff prompts — use the upvoted image as a STYLE reference only,
+// invent a new subject. Mix of meme templates and abstract pictograms.
 const RIFF_PREFIX =
   'Completely replace the subject. Match the reference image only for ' +
   'palette, line weight, typography style, and overall mood — but change ' +
@@ -64,19 +63,26 @@ async function fetchSourceBytes(url) {
   return Buffer.from(await r.arrayBuffer());
 }
 
-async function qwenEdit(sourceBytes, promptText) {
-  const formData = new FormData();
-  formData.append('prompt', promptText);
-  formData.append('images', new Blob([sourceBytes], { type: 'image/png' }), 'source.png');
-
-  const res = await fetch(QWEN_ENDPOINT, { method: 'POST', body: formData });
-  if (!res.ok) {
-    throw new Error(`Qwen ${res.status}: ${(await res.text()).slice(0, 200)}`);
+async function geminiEdit(sourceBytes, sourceMime, promptText) {
+  const result = await generateText({
+    model: MODEL,
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'image', image: sourceBytes, mediaType: sourceMime },
+        { type: 'text', text: promptText },
+      ],
+    }],
+  });
+  const file = result.files?.find(f => f.mediaType?.startsWith('image/'));
+  if (!file) {
+    throw new Error(result.text?.slice(0, 120) || 'no image returned');
   }
-  return Buffer.from(await res.arrayBuffer());
+  const bytes = file.uint8Array ?? Buffer.from(file.base64, 'base64');
+  return { bytes, mime: file.mediaType || 'image/png' };
 }
 
-async function processOne(sb, sourceBytes, p, parentLogoId, sessionId, sourceImageUrl) {
+async function processOne(sb, sourceBytes, sourceMime, p, parentLogoId, sessionId, sourceImageUrl) {
   // Insert pending row first so we get a UUID for filename
   const { data: row, error: insertErr } = await sb
     .from('castle_edits')
@@ -96,18 +102,20 @@ async function processOne(sb, sourceBytes, p, parentLogoId, sessionId, sourceIma
   const jobId = row.id;
 
   try {
-    const pngBytes = await qwenEdit(sourceBytes, p.prompt);
+    const { bytes: pngBytes, mime } = await geminiEdit(sourceBytes, sourceMime, p.prompt);
+    const ext = mime === 'image/jpeg' ? 'jpg' : 'png';
+    const filename = `spawn_${jobId}.${ext}`;
 
     const { error: uploadErr } = await sb.storage
       .from(STORAGE_BUCKET)
-      .upload(`spawn_${jobId}.png`, pngBytes, { contentType: 'image/png', upsert: true });
+      .upload(filename, pngBytes, { contentType: mime, upsert: true });
     if (uploadErr) throw uploadErr;
 
-    const { data: urlData } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(`spawn_${jobId}.png`);
+    const { data: urlData } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(filename);
     const publicUrl = urlData.publicUrl;
 
-    // This UPDATE flips status='processing' → status='done' AND sets image_data_url.
-    // Clients subscribed to Realtime UPDATE on castle_edits will see the new card NOW.
+    // status='processing' → 'done' triggers Supabase Realtime UPDATE — clients
+    // subscribed see the new card immediately.
     const { error: updateErr } = await sb
       .from('castle_edits')
       .update({ status: 'done', image_data_url: publicUrl, error_msg: null })
@@ -138,17 +146,21 @@ export default async function handler(req, res) {
   const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   let sourceBytes;
+  let sourceMime = 'image/png';
   try {
     sourceBytes = await fetchSourceBytes(imageUrl);
+    if (imageUrl.startsWith('data:')) {
+      const m = imageUrl.match(/data:([^;]+)/);
+      if (m) sourceMime = m[1];
+    }
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
 
-  // Fire all 20 in parallel from our side; Qwen serializes them server-side
-  // (one job at a time), but each completion writes to Supabase immediately.
-  // Clients subscribed to Realtime see cards land progressively over ~4 min.
+  // Fire all 20 in parallel — Gemini handles concurrency, each completion
+  // writes to Supabase immediately. Clients see cards land via Realtime.
   const settled = await Promise.allSettled(
-    ALL_PROMPTS.map(p => processOne(sb, sourceBytes, p, logoId, sessionId, imageUrl))
+    ALL_PROMPTS.map(p => processOne(sb, sourceBytes, sourceMime, p, logoId, sessionId, imageUrl))
   );
 
   const results = settled.map((s, i) =>
