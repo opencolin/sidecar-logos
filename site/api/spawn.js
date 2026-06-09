@@ -82,7 +82,7 @@ async function geminiEdit(sourceBytes, sourceMime, promptText) {
   return { bytes, mime: file.mediaType || 'image/png' };
 }
 
-async function processOne(sb, sourceBytes, sourceMime, p, parentLogoId, sessionId, sourceImageUrl) {
+async function processOne(sb, sourceBytes, sourceMime, p, parentLogoId, sessionId, sourceImageUrl, kind) {
   // Insert pending row first so we get a UUID for filename
   const { data: row, error: insertErr } = await sb
     .from('castle_edits')
@@ -95,6 +95,7 @@ async function processOne(sb, sourceBytes, sourceMime, p, parentLogoId, sessionI
       image_data_url: null,
       up_votes: 0,
       down_votes: 0,
+      kind,
     })
     .select('id')
     .single();
@@ -138,10 +139,11 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { logoId, imageUrl, sessionId } = req.body || {};
+  const { logoId, imageUrl, sessionId, kind: rawKind } = req.body || {};
   if (!logoId || !imageUrl || !sessionId) {
     return res.status(400).json({ error: 'Missing logoId, imageUrl, or sessionId' });
   }
+  const kind = rawKind === 'meme' ? 'meme' : 'logo';
 
   const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -160,7 +162,7 @@ export default async function handler(req, res) {
   // Fire all 20 in parallel — Gemini handles concurrency, each completion
   // writes to Supabase immediately. Clients see cards land via Realtime.
   const settled = await Promise.allSettled(
-    ALL_PROMPTS.map(p => processOne(sb, sourceBytes, sourceMime, p, logoId, sessionId, imageUrl))
+    ALL_PROMPTS.map(p => processOne(sb, sourceBytes, sourceMime, p, logoId, sessionId, imageUrl, kind))
   );
 
   const results = settled.map((s, i) =>

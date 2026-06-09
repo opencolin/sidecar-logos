@@ -1493,11 +1493,16 @@ const SESSION_ID = crypto.randomUUID();
 let votes = {}; // { id: { up: 0, down: 0, userVote: null } }
 let sortMode = 'votes';
 let searchQuery = '';
-// Archive toggle: when false, hide the 1,500+ Sidecar-era logos in LOGOS so the
-// gallery shows only memes/edits. Persists in localStorage.
-let showSidecarArchive = (function () {
-  try { return localStorage.getItem('showSidecarArchive') === 'true'; } catch { return false; }
+// Mode switch: 'meme' or 'logo'. Filters the gallery so memes and logos
+// don't mix. Default is meme. Persists in localStorage.
+let currentMode = (function () {
+  try {
+    const v = localStorage.getItem('currentMode');
+    return v === 'logo' ? 'logo' : 'meme';
+  } catch { return 'meme'; }
 })();
+// Tracks which mode the Create modal was opened in ('meme' or 'logo').
+let createModalKind = currentMode;
 let lightboxId = null;
 let filteredIds = [];
 let voteInFlight = new Set(); // prevent double-clicks
@@ -1621,10 +1626,11 @@ function castVote(id, dir) {
   persistVote(id, dir, wasVote).finally(() => voteInFlight.delete(id));
 
   // SPAWN ON UPVOTE: new upvote (not toggle-off, not already-upvoted) triggers
-  // 10 AI variations to be added to the gallery. Fire-and-forget.
+  // 20 AI variations to be added to the gallery. Fire-and-forget. LOGOS entries
+  // are always 'logo' kind.
   if (dir === 'up' && wasVote !== 'up') {
     const logo = LOGOS.find(l => l.id === id);
-    if (logo) spawnVariations({ id, imageUrl: logoUrl(logo), label: logo.label });
+    if (logo) spawnVariations({ id, imageUrl: logoUrl(logo), label: logo.label, kind: 'logo' });
   }
 }
 
@@ -1633,9 +1639,10 @@ function castVote(id, dir) {
 // on the source card while the API works, then appends the resulting edit cards.
 const spawnInFlight = new Set();
 
-async function spawnVariations({ id, imageUrl, label }) {
+async function spawnVariations({ id, imageUrl, label, kind }) {
   if (spawnInFlight.has(id)) return; // one in-flight per logo per page-load
   spawnInFlight.add(id);
+  const childKind = kind === 'meme' ? 'meme' : 'logo';
 
   // Show a small "spawning" indicator on the source card if present
   const card = document.getElementById(`card-${id}`) || document.getElementById(`edit-card-${id}`);
@@ -1654,7 +1661,7 @@ async function spawnVariations({ id, imageUrl, label }) {
   fetch('/api/spawn', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ logoId: typeof id === 'number' ? id : null, imageUrl, sessionId: SESSION_ID, parentLabel: label }),
+    body: JSON.stringify({ logoId: typeof id === 'number' ? id : null, imageUrl, sessionId: SESSION_ID, parentLabel: label, kind: childKind }),
   })
     .then(r => r.json())
     .then(data => {
@@ -1686,7 +1693,9 @@ function getSortedFiltered() {
   // Each entry carries a uniform shape so the sort + render dispatch is simple.
   const q = (searchQuery || '').toLowerCase();
 
-  const logoEntries = (showSidecarArchive ? LOGOS : [])
+  // LOGOS array entries are all kind='logo' by definition (the legacy
+  // Sidecar gallery). They only appear in 'logo' mode.
+  const logoEntries = (currentMode === 'logo' ? LOGOS : [])
     .filter(l => !q || l.label.toLowerCase().includes(q))
     .map(l => {
       const v = votes[l.id] || { up: 0, down: 0 };
@@ -1706,8 +1715,11 @@ function getSortedFiltered() {
       };
     });
 
+  // Edit cards are filtered by kind. Default to 'logo' for legacy rows that
+  // were created before the kind column existed.
   const editEntries = Object.values(editCards)
     .filter(e => e.status === 'done' && e.imageDataUrl)
+    .filter(e => (e.kind || 'logo') === currentMode)
     .filter(e => !q || (e.prompt || '').toLowerCase().includes(q))
     .map(e => {
       const up = e.up || 0, down = e.down || 0;
@@ -2124,12 +2136,17 @@ let editPolls = {};
 // ===== INIT =====
 // Show a placeholder render immediately, then load real data from Supabase
 function updateShowEverythingLabel() {
-  const visibleLogos = showSidecarArchive ? LOGOS.length : 0;
-  const editCount = Object.values(editCards).filter(e => e.status === 'done' && e.imageDataUrl).length;
+  const visibleLogos = currentMode === 'logo' ? LOGOS.length : 0;
+  const editCount = Object.values(editCards).filter(e =>
+    e.status === 'done' && e.imageDataUrl && (e.kind || 'logo') === currentMode
+  ).length;
   const total = visibleLogos + editCount;
   document.getElementById('stat-total').textContent = total;
   const btn = document.getElementById('all-sidecars-btn');
-  if (btn) btn.textContent = `Show everything (${total})`;
+  if (btn) {
+    const label = currentMode === 'meme' ? 'memes' : 'logos';
+    btn.textContent = `Show all ${label} (${total})`;
+  }
 }
 updateShowEverythingLabel();
 render();
@@ -2141,7 +2158,7 @@ async function loadEditsFromSupabase() {
   try {
     const { data, error } = await sb
       .from('castle_edits')
-      .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, is_mint, created_at')
+      .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, is_mint, kind, created_at')
       .eq('status', 'done')
       .order('created_at', { ascending: false })
       .range(0, 9999);
@@ -2173,6 +2190,7 @@ async function loadEditsFromSupabase() {
         userVote: userVoteMap[e.id] || null,
         status: 'done',
         isMint: e.is_mint || false,
+        kind: e.kind || 'logo',
         createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
       };
     });
@@ -2296,12 +2314,15 @@ async function castEditVote(editId, dir) {
   updateEditCard(editId);
 
   // SPAWN ON UPVOTE (recursive): a new upvote on an AI-generated edit also
-  // triggers 10 variations of it. parent_logo_id rolls up to the original.
+  // triggers 20 variations of it. parent_logo_id rolls up to the original.
+  // Inherit kind from the parent so meme upvotes spawn memes and logo
+  // upvotes spawn logos.
   if (dir === 'up' && wasVote !== 'up' && edit.imageDataUrl) {
     spawnVariations({
       id: edit.parentId ?? editId, // attribute variations to the original logo when possible
       imageUrl: edit.imageDataUrl,
       label: edit.prompt || 'variation',
+      kind: edit.kind || 'logo',
     });
   }
 
@@ -2419,6 +2440,12 @@ async function submitEdit() {
     if (data.status === 'done' && data.imageDataUrl) {
       closeEditModal();
       const localId = `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      // Inherit kind from the source we edited. If the parent is a LOGOS
+      // entry it's a logo; if it's an editCards entry, use its kind; otherwise
+      // fall back to currentMode.
+      const parentKind = LOGOS.find(l => l.id === editModalLogoId)
+        ? 'logo'
+        : (editCards[editModalLogoId]?.kind || currentMode);
       editCards[localId] = {
         id: localId,
         parentId: editModalLogoId,
@@ -2428,6 +2455,7 @@ async function submitEdit() {
         down: 0,
         userVote: null,
         status: 'done',
+        kind: parentKind,
         createdAt: Date.now(),
       };
       renderEditCards();
@@ -2494,7 +2522,7 @@ function pollEditJob(jobId) {
     try {
       const { data, error } = await sb
         .from('castle_edits')
-        .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, error_msg')
+        .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, error_msg, kind')
         .eq('id', jobId)
         .single();
 
@@ -2514,6 +2542,7 @@ function pollEditJob(jobId) {
           down: data.down_votes || 0,
           userVote: null,
           status: 'done',
+          kind: data.kind || 'logo',
           createdAt: data.created_at ? new Date(data.created_at).getTime() : Date.now(),
         };
         renderEditCards();
@@ -2567,17 +2596,31 @@ document.addEventListener('keydown', e => {
 // ===== CREATE NEW FEATURE =====
 const VERCEL_CREATE_API = '/api/create';
 
-function openCreateModal() {
-  // Start with an empty prompt so users see the placeholder and the meme presets.
-  document.getElementById('create-prompt-input').value = '';
+function openCreateModal(kind) {
+  createModalKind = kind === 'logo' ? 'logo' : 'meme';
+  // Toggle preset rows based on kind
+  document.getElementById('create-meme-presets').hidden = createModalKind !== 'meme';
+  document.getElementById('create-logo-presets').hidden = createModalKind !== 'logo';
+  // Update copy
+  const kindLabel = document.getElementById('create-modal-kind');
+  if (kindLabel) kindLabel.textContent = createModalKind === 'meme' ? 'a meme' : 'a logo';
+  const hint = document.getElementById('create-modal-hint');
+  if (hint) {
+    hint.textContent = createModalKind === 'meme'
+      ? 'Describe a meme and AI will generate it. It appears in the Memes grid for everyone to vote on. Pick a template below or write your own prompt.'
+      : 'Describe a logo and AI will generate it. It appears in the Logos grid for everyone to vote on. Pick a style below or write your own prompt.';
+  }
+  const ta = document.getElementById('create-prompt-input');
+  ta.value = '';
+  ta.placeholder = createModalKind === 'meme'
+    ? 'Describe your meme… e.g. Drake meme: rejecting reading the docs, approving asking the AI'
+    : 'Describe your logo… e.g. minimalist orange fox silhouette inside a circle';
   document.getElementById('create-status').hidden = true;
   document.getElementById('create-generate-btn').disabled = false;
   document.getElementById('create-modal').hidden = false;
   document.getElementById('create-modal-backdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
-  const ta = document.getElementById('create-prompt-input');
   ta.focus();
-  ta.select();
 }
 
 function closeCreateModal() {
@@ -2604,7 +2647,7 @@ async function submitCreate() {
     const res = await fetch(VERCEL_CREATE_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: SESSION_ID, prompt }),
+      body: JSON.stringify({ sessionId: SESSION_ID, prompt, kind: createModalKind }),
     });
 
     const data = await res.json();
@@ -2615,9 +2658,11 @@ async function submitCreate() {
     closeCreateModal();
 
     if (data.status === 'done' && data.imageDataUrl) {
-      const localId = `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      editCards[localId] = {
-        id: localId,
+      // Use the server-assigned jobId (a real DB row UUID) when present so
+      // the Realtime UPDATE for the same row doesn't double-insert.
+      const cardId = data.jobId || `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      editCards[cardId] = {
+        id: cardId,
         parentId: null,
         prompt,
         imageDataUrl: data.imageDataUrl,
@@ -2626,9 +2671,10 @@ async function submitCreate() {
         userVote: null,
         status: 'done',
         isCreated: true,
+        kind: data.kind || createModalKind,
         createdAt: Date.now(),
       };
-      renderCreatedCard(editCards[localId]);
+      renderCreatedCard(editCards[cardId]);
     } else {
       throw new Error('No image returned');
     }
@@ -2661,7 +2707,8 @@ document.querySelectorAll('#create-modal .edit-quick-btn').forEach(btn => {
   });
 });
 
-document.getElementById('create-new-btn').addEventListener('click', openCreateModal);
+document.getElementById('create-meme-btn').addEventListener('click', () => openCreateModal('meme'));
+document.getElementById('create-logo-btn').addEventListener('click', () => openCreateModal('logo'));
 document.getElementById('create-modal-close').addEventListener('click', closeCreateModal);
 document.getElementById('create-modal-backdrop').addEventListener('click', closeCreateModal);
 document.getElementById('create-generate-btn').addEventListener('click', submitCreate);
@@ -2674,7 +2721,7 @@ async function loadCreatedFromSupabase() {
   try {
     const { data } = await sb
       .from('castle_edits')
-      .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status')
+      .select('id, parent_logo_id, prompt, image_data_url, up_votes, down_votes, status, kind')
       .eq('status', 'done')
       .is('parent_logo_id', null)
       .order('created_at', { ascending: false })
@@ -2692,6 +2739,7 @@ async function loadCreatedFromSupabase() {
         userVote: null,
         status: 'done',
         isCreated: true,
+        kind: e.kind || 'logo',
         createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
       };
     });
@@ -2724,6 +2772,10 @@ async function submitMint(logoId, imageUrl, btn, label) {
 
     // Store in editCards so it persists across re-renders
     const fakeId = `mint-local-${logoId}-${Date.now()}`;
+    // Mint inherits from parent kind so a mint of a logo stays in logo mode.
+    const parentKindForMint = LOGOS.find(l => l.id === logoId)
+      ? 'logo'
+      : (editCards[logoId]?.kind || currentMode);
     editCards[fakeId] = {
       id: fakeId,
       parentId: logoId,
@@ -2733,6 +2785,7 @@ async function submitMint(logoId, imageUrl, btn, label) {
       status: 'done',
       isMint: true,
       label,
+      kind: parentKindForMint,
       createdAt: Date.now(),
     };
 
@@ -2832,16 +2885,26 @@ function buildMintCard(edit) {
   return card;
 }
 
-// ===== SIDECAR ARCHIVE TOGGLE =====
-(function wireArchiveToggle() {
-  const input = document.getElementById('archive-toggle-input');
-  if (!input) return;
-  input.checked = showSidecarArchive;
-  input.addEventListener('change', (e) => {
-    showSidecarArchive = e.target.checked;
-    try { localStorage.setItem('showSidecarArchive', String(showSidecarArchive)); } catch {}
-    render();
-    updateShowEverythingLabel();
+// ===== MEMES / LOGOS MODE SWITCH =====
+function applyModeToTabs() {
+  document.querySelectorAll('.mode-switch .mode-tab').forEach((t) => {
+    const isActive = t.dataset.mode === currentMode;
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    t.classList.toggle('active', isActive);
+  });
+}
+(function wireModeSwitch() {
+  applyModeToTabs();
+  document.querySelectorAll('.mode-switch .mode-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const nextMode = tab.dataset.mode === 'logo' ? 'logo' : 'meme';
+      if (nextMode === currentMode) return;
+      currentMode = nextMode;
+      try { localStorage.setItem('currentMode', currentMode); } catch {}
+      applyModeToTabs();
+      render();
+      updateShowEverythingLabel();
+    });
   });
 })();
 
@@ -2873,10 +2936,11 @@ loadCreatedFromSupabase();
           status: 'done',
           isMint: e.is_mint || false,
           isLive: true,
+          kind: e.kind || 'logo',
           createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
         };
         try { renderEditCards(); } catch (err) { console.warn('render error:', err); }
-        console.log('[realtime] new edit:', e.id, e.prompt);
+        console.log('[realtime] new edit:', e.id, e.prompt, e.kind);
       },
     )
     .on(
@@ -2899,6 +2963,7 @@ loadCreatedFromSupabase();
             status: 'done',
             isMint: e.is_mint || false,
             isLive: true,
+            kind: e.kind || 'logo',
             createdAt: e.created_at ? new Date(e.created_at).getTime() : Date.now(),
           };
           try { renderEditCards(); } catch (_) {}

@@ -34,16 +34,20 @@
           <button class="sort-tab" data-sort="controversial" role="tab" aria-selected="false">Controversial</button>
         </div>
         <div class="header-right">
+          <div class="mode-switch" role="tablist" aria-label="Mode">
+            <button class="mode-tab" data-mode="meme" role="tab" aria-selected="true">😂 Memes</button>
+            <button class="mode-tab" data-mode="logo" role="tab" aria-selected="false">⛩ Logos</button>
+          </div>
           <div class="filter-wrap">
             <input type="search" class="search-input" placeholder="Search…" aria-label="Search" />
           </div>
-          <label class="archive-toggle" title="Show the 1,500+ Sidecar logos in the gallery">
-            <input type="checkbox" id="archive-toggle-input" />
-            <span>📦 Sidecar archive</span>
-          </label>
-          <button class="create-new-btn" id="create-new-btn" aria-label="Create a new meme">
+          <button class="create-new-btn create-meme-btn" id="create-meme-btn" aria-label="Create a new meme">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            Create New
+            Meme
+          </button>
+          <button class="create-new-btn create-logo-btn" id="create-logo-btn" aria-label="Create a new logo">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Logo
           </button>
           <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -143,22 +147,30 @@
       <div class="create-modal-body">
         <div class="create-modal-heading">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <p class="edit-modal-label">Create with <strong>Qwen-Image-Edit</strong></p>
+          <p class="edit-modal-label">Create <span id="create-modal-kind">a meme</span> with <strong>nano-banana</strong></p>
         </div>
-        <p class="create-modal-hint">Describe a meme (or anything, really) and AI will generate it. It appears in the grid for everyone to vote on. Pick a template below or write your own prompt.</p>
+        <p class="create-modal-hint" id="create-modal-hint">Describe a meme (or anything, really) and AI will generate it. It appears in the grid for everyone to vote on. Pick a template below or write your own prompt.</p>
         <textarea
           class="edit-prompt-input create-prompt-input"
           id="create-prompt-input"
           rows="4"
-          placeholder="Describe your meme… e.g. Drake meme: ME, looking pleased at TYPING ON A KEYBOARD. Drake, displeased at PROGRAMMING WITH A MOUSE"
+          placeholder="Describe your meme…"
         ></textarea>
-        <div class="edit-modal-actions">
+        <div class="edit-modal-actions" id="create-meme-presets">
           <button class="edit-quick-btn" data-create-prompt="Classic Drake meme format. Two stacked panels. Top panel: Drake holding his hand up rejecting the text 'Reading the docs'. Bottom panel: Drake pointing approvingly at the text 'Asking the AI'. Bold Impact-font white text with black outline. Yellow background.">✦ Drake meme</button>
           <button class="edit-quick-btn" data-create-prompt="Classic 'Distracted Boyfriend' meme template. A man walking with his girlfriend turns his head to stare at another woman walking by. The girlfriend (labeled 'My current project') looks shocked. The other woman (labeled 'A new shiny side project') walks past confidently. The boyfriend (labeled 'Me') stares. Bold Impact-font labels.">✦ Distracted boyfriend</button>
           <button class="edit-quick-btn" data-create-prompt="'Two Buttons' meme template. A man sweating profusely as he debates pressing one of two red buttons. Left button labeled 'Refactor the code'. Right button labeled 'Ship it and pray'. White Impact-font labels with black outline.">✦ Two buttons</button>
           <button class="edit-quick-btn" data-create-prompt="'This is Fine' meme. A cartoon dog wearing a hat sits at a table drinking coffee while the room around him is engulfed in flames. The dog calmly says 'This is fine.' Bold Impact-font caption at the top reading 'PRODUCTION ON A FRIDAY AFTERNOON'.">✦ This is fine</button>
           <button class="edit-quick-btn" data-create-prompt="'Galaxy Brain' meme. Four stacked panels showing a brain progressively glowing brighter and bigger, from a normal brain to a cosmic universe-brain. Each panel labeled with progressively more absurd takes on the same theme. Bold Impact-font labels.">✦ Galaxy brain</button>
           <button class="edit-quick-btn" data-create-prompt="'Woman Yelling at Cat' meme. Left panel: a blonde woman crying and pointing aggressively, with a caption above saying 'WHY ISN’T IT WORKING?!'. Right panel: a confused-looking white cat sitting at a dinner table with the caption 'IT WORKED ON MY MACHINE'. Bold Impact-font white text with black outline.">✦ Woman yelling at cat</button>
+        </div>
+        <div class="edit-modal-actions" id="create-logo-presets" hidden>
+          <button class="edit-quick-btn" data-create-prompt="Flat single-color minimalist abstract logo mark — geometric primitives (circle + square or triangle + hexagon), clean vector silhouette, black on a clean white background, no gradients, no text.">✦ Minimal mark</button>
+          <button class="edit-quick-btn" data-create-prompt="Modern wordmark logo featuring a clean lowercase sans-serif typography in a single bold color on a neutral background. The wordmark reads 'brand'. Generous letter spacing, no extra decoration.">✦ Modern wordmark</button>
+          <button class="edit-quick-btn" data-create-prompt="Retro 70s logo — bold earthy palette of burnt orange and mustard, chunky rounded geometric forms, vintage badge composition with a sunset rainbow gradient stripe, no fine text.">✦ 70s retro</button>
+          <button class="edit-quick-btn" data-create-prompt="Y2K chrome logo — liquid mercury with iridescent rainbow specular highlights, holographic shine, deep black gradient background, sci-fi futuristic feel.">✦ Y2K chrome</button>
+          <button class="edit-quick-btn" data-create-prompt="Hand-drawn marker illustration logo — slightly wobbly black ink linework on a cream paper background, friendly indie tech-startup mascot character with simple eyes and a smile.">✦ Indie mascot</button>
+          <button class="edit-quick-btn" data-create-prompt="Bauhaus geometric primary-color logo. Pure red square, blue circle, yellow triangle arranged in a tight composition, white background, crisp edges, no text.">✦ Bauhaus</button>
         </div>
         <button class="edit-generate-btn" id="create-generate-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>

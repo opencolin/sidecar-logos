@@ -40,3 +40,18 @@ END $$;
 -- Set REPLICA IDENTITY FULL so UPDATE payloads include all columns (clients
 -- need image_data_url and status to render new cards). Safe and idempotent.
 ALTER TABLE castle_edits REPLICA IDENTITY FULL;
+
+-- ===== Memes vs Logos =====
+-- Categorize each AI-generated artifact so the gallery can filter to
+-- 'meme' mode or 'logo' mode. All historical rows are sidecar variations
+-- generated from the Sidecar Logos era — those are kind='logo'. Going
+-- forward the /api/create + /api/spawn endpoints write the appropriate
+-- kind based on which "Create" button the user clicked, or which kind
+-- the upvoted parent had.
+
+ALTER TABLE castle_edits ADD COLUMN IF NOT EXISTS kind TEXT DEFAULT 'logo';
+UPDATE castle_edits SET kind = 'logo' WHERE kind IS NULL;
+
+-- Index makes the mode-filtered loads fast as the table grows.
+CREATE INDEX IF NOT EXISTS castle_edits_kind_status_idx
+  ON castle_edits (kind, status, created_at DESC);

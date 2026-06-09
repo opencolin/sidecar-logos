@@ -305,34 +305,37 @@ input { font: inherit; color: inherit; }
 }
 .theme-toggle:hover { color: var(--color-text); border-color: var(--color-primary); }
 
-.archive-toggle {
+/* Memes/Logos segmented mode switch */
+.mode-switch {
   display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
+  align-items: stretch;
+  background: var(--color-surface-offset);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-full);
-  background: var(--color-surface-offset);
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-  cursor: pointer;
-  user-select: none;
+  padding: 2px;
   flex-shrink: 0;
+}
+.mode-tab {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-full);
   transition: all var(--transition);
 }
-.archive-toggle:hover { color: var(--color-text); border-color: var(--color-primary); }
-.archive-toggle input {
-  width: 14px;
-  height: 14px;
-  margin: 0;
-  accent-color: var(--color-primary);
-  cursor: pointer;
-}
-.archive-toggle:has(input:checked) {
+.mode-tab:hover { color: var(--color-text); }
+.mode-tab[aria-selected="true"] {
   background: var(--color-primary);
   color: white;
-  border-color: var(--color-primary);
 }
+
+/* Second create button — variant accent */
+.create-logo-btn { background: var(--color-surface-offset); color: var(--color-text); border: 1.5px solid var(--color-border); }
+.create-logo-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
 .stats-bar {
   max-width: var(--content-max);
