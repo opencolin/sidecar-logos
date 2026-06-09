@@ -1493,7 +1493,7 @@ const SESSION_ID = crypto.randomUUID();
 let votes = {}; // { id: { up: 0, down: 0, userVote: null } }
 let sortMode = 'rule';
 
-// Parse the rule number (1..10) out of a meme's prompt-tag slug. The 155
+// Parse the rule number (1..N) out of a meme's prompt-tag slug. The 155
 // hand-written house memes use `house:R-N-…` (R = rule), the 100 template
 // memes use `house-tmpl:T-R-…` (T = template, R = rule). Returns 0 for
 // anything else so non-house edits sort to the end of the "By Rule" view.
@@ -1505,6 +1505,22 @@ function extractRuleNumber(promptStr) {
   if (m2) return Number(m2[1]) || 0;
   return 0;
 }
+
+// Human-readable name for each Alamo Square house rule. Indexed 1..11.
+// Used to render section dividers in 'By Rule' sort mode.
+const RULE_NAMES = {
+  1: 'Furniture Approval',
+  2: 'No Smoking',
+  3: 'Be Kind to Judy',
+  4: 'Keep Common Areas Clean',
+  5: 'Dishes in Dishwasher',
+  6: 'Smart Door Locks',
+  7: 'Key Management',
+  8: 'Parking Rules',
+  9: 'Laundry Quiet Hours',
+  10: 'Washing Machine Maintenance',
+  11: 'Package Delivery',
+};
 let searchQuery = '';
 // Mode switch: 'meme' or 'logo'. Filters the gallery so memes and logos
 // don't mix. Default is meme. Persists in localStorage.
@@ -1783,6 +1799,33 @@ function clearGridChildren(grid) {
   while (grid.firstChild) grid.removeChild(grid.firstChild);
 }
 
+// Full-width section divider rendered between rule groups in 'By Rule' mode.
+// ruleNum=0 means "no rule" — used for non-house edits at the end of the list.
+function buildRuleDivider(ruleNum) {
+  const div = document.createElement('div');
+  div.className = 'rule-divider';
+  if (!ruleNum) {
+    const label = document.createElement('span');
+    label.className = 'rule-divider-num';
+    label.textContent = '✦';
+    div.appendChild(label);
+    const name = document.createElement('span');
+    name.className = 'rule-divider-name';
+    name.textContent = 'Other memes';
+    div.appendChild(name);
+  } else {
+    const num = document.createElement('span');
+    num.className = 'rule-divider-num';
+    num.textContent = `Rule ${ruleNum}`;
+    div.appendChild(num);
+    const name = document.createElement('span');
+    name.className = 'rule-divider-name';
+    name.textContent = RULE_NAMES[ruleNum] || `Rule ${ruleNum}`;
+    div.appendChild(name);
+  }
+  return div;
+}
+
 function render() {
   const entries = getSortedFiltered();
   // filteredIds still references LOGOS only (used by lightbox prev/next nav).
@@ -1798,7 +1841,18 @@ function render() {
   noResults.hidden = true;
 
   const fragment = document.createDocumentFragment();
+  // Track the current rule group while rendering. Only emit dividers when
+  // we're sorted by rule — in any other sort mode the dividers would be
+  // out of order and confusing.
+  let lastRuleNum = null;
   entries.forEach((entry, idx) => {
+    if (sortMode === 'rule') {
+      const rn = entry.ruleNum || 0;
+      if (rn !== lastRuleNum) {
+        lastRuleNum = rn;
+        fragment.appendChild(buildRuleDivider(rn));
+      }
+    }
     if (entry.kind === 'logo') {
       const existing = document.getElementById(`card-${entry.id}`);
       if (existing) {

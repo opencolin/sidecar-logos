@@ -373,6 +373,34 @@ input { font: inherit; color: inherit; }
   .main-content { padding: 1rem; }
 }
 
+/* Full-width rule section header in 'By Rule' sort mode */
+.rule-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+.rule-divider:first-child { margin-top: 0; }
+.rule-divider-num {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border-radius: var(--radius-full);
+}
+.rule-divider-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
 /* ===== LOGO CARD ===== */
 .logo-card {
   background: var(--color-surface);
