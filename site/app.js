@@ -1492,6 +1492,19 @@ const SESSION_ID = crypto.randomUUID();
 // ===== STATE =====
 let votes = {}; // { id: { up: 0, down: 0, userVote: null } }
 let sortMode = 'votes';
+
+// Parse the rule number (1..10) out of a meme's prompt-tag slug. The 155
+// hand-written house memes use `house:R-N-…` (R = rule), the 100 template
+// memes use `house-tmpl:T-R-…` (T = template, R = rule). Returns 0 for
+// anything else so non-house edits sort to the end of the "By Rule" view.
+function extractRuleNumber(promptStr) {
+  if (typeof promptStr !== 'string') return 0;
+  const m1 = /^house:(\d+)-/.exec(promptStr);
+  if (m1) return Number(m1[1]) || 0;
+  const m2 = /^house-tmpl:\d+-(\d+)-/.exec(promptStr);
+  if (m2) return Number(m2[1]) || 0;
+  return 0;
+}
 let searchQuery = '';
 // Mode switch: 'meme' or 'logo'. Filters the gallery so memes and logos
 // don't mix. Default is meme. Persists in localStorage.
@@ -1712,6 +1725,7 @@ function getSortedFiltered() {
         // so 'newest' sorts higher-id LOGOS above lower-id ones.
         createdAt: 0,
         idProxy: l.id,
+        ruleNum: 0, // logos have no house-rule association
       };
     });
 
@@ -1734,6 +1748,9 @@ function getSortedFiltered() {
         controversy: total * ratio,
         createdAt: e.createdAt || 0,
         idProxy: 0, // edits don't share LOGOS' numeric id space
+        // Rule number parsed from prompt slug; 0 = "no rule" (sorts last in
+        // 'rule' mode). Cache it on the edit so the parse runs only once.
+        ruleNum: typeof e.ruleNum === 'number' ? e.ruleNum : (e.ruleNum = extractRuleNumber(e.prompt)),
       };
     });
 
@@ -1746,6 +1763,14 @@ function getSortedFiltered() {
     // Newest first: edit cards (real createdAt) above LOGOS (createdAt=0).
     // Within LOGOS, higher id wins. Within edits, newer createdAt wins.
     list.sort((a, b) => (b.createdAt - a.createdAt) || (b.idProxy - a.idProxy));
+  } else if (sortMode === 'rule') {
+    // Rule 1 → 10 ascending. Edits without a rule (ruleNum=0) go to the end.
+    // Within a rule, newest first. LOGOS (ruleNum=0) follow non-house edits.
+    list.sort((a, b) => {
+      const ar = a.ruleNum || Infinity;
+      const br = b.ruleNum || Infinity;
+      return (ar - br) || (b.createdAt - a.createdAt) || (b.idProxy - a.idProxy);
+    });
   } else if (sortMode === 'controversial') {
     list.sort((a, b) => (b.controversy - a.controversy) || (b.createdAt - a.createdAt));
   }
