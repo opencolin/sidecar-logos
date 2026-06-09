@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sidecar Logos — Vote for Your Favorite</title>
-  <meta name="description" content="Browse and vote on 472 unique sidecar logo designs. Help pick the best brand identity for Sidecar." />
+  <title>Memeologism — Make, remix, and vote on memes</title>
+  <meta name="description" content="A field laboratory for memes. Generate, remix, and vote — every upvote spawns 20 AI variations. Plus 1,500+ archive specimens from the Sidecar era." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -15,23 +15,15 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-brand">
-        <svg class="header-logo" viewBox="0 0 40 40" fill="none" aria-label="Sidecar logo" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="22" width="32" height="14" rx="2" fill="currentColor" opacity="0.15"/>
-          <rect x="4" y="22" width="32" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-          <rect x="7" y="14" width="7" height="10" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2"/>
-          <rect x="16.5" y="10" width="7" height="14" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2"/>
-          <rect x="26" y="14" width="7" height="10" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2"/>
-          <rect x="7" y="12" width="2" height="3" fill="currentColor"/>
-          <rect x="12" y="12" width="2" height="3" fill="currentColor"/>
-          <rect x="17" y="8" width="2" height="3" fill="currentColor"/>
-          <rect x="22" y="8" width="2" height="3" fill="currentColor"/>
-          <rect x="26" y="12" width="2" height="3" fill="currentColor"/>
-          <rect x="31" y="12" width="2" height="3" fill="currentColor"/>
-          <rect x="16" y="28" width="8" height="8" rx="1" fill="currentColor"/>
+        <svg class="header-logo" viewBox="0 0 40 40" fill="none" aria-label="Memeologism logo" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="16" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="2"/>
+          <circle cx="14.5" cy="17.5" r="2.2" fill="currentColor"/>
+          <circle cx="25.5" cy="17.5" r="2.2" fill="currentColor"/>
+          <path d="M13 26c2 2.5 5 4 7 4s5-1.5 7-4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>
         </svg>
         <div>
-          <h1 class="brand-name">Sidecar Logos</h1>
-          <p class="brand-sub">Vote for your favorite Sidecar brand</p>
+          <h1 class="brand-name">Memeologism</h1>
+          <p class="brand-sub">Make, remix, and vote on memes</p>
         </div>
       </div>
 
@@ -43,9 +35,13 @@
         </div>
         <div class="header-right">
           <div class="filter-wrap">
-            <input type="search" class="search-input" placeholder="Search styles…" aria-label="Search logos" />
+            <input type="search" class="search-input" placeholder="Search…" aria-label="Search" />
           </div>
-          <button class="create-new-btn" id="create-new-btn" aria-label="Create a new logo">
+          <label class="archive-toggle" title="Show the 1,500+ Sidecar logos in the gallery">
+            <input type="checkbox" id="archive-toggle-input" />
+            <span>📦 Sidecar archive</span>
+          </label>
+          <button class="create-new-btn" id="create-new-btn" aria-label="Create a new meme">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             Create New
           </button>
@@ -66,14 +62,14 @@
   </header>
 
   <main class="main-content">
-    <div class="grid" id="logo-grid" role="list" aria-label="Logo gallery"></div>
-    <div class="no-results" id="no-results" hidden>No logos match your search.</div>
+    <div class="grid" id="logo-grid" role="list" aria-label="Meme gallery"></div>
+    <div class="no-results" id="no-results" hidden>Nothing matches your search. Hit "Create New" to make the first one.</div>
     <div class="bottom-bar">
-      <button class="all-sidecars-btn" id="all-sidecars-btn">All Sidecars (<span id="stat-total">472</span>)</button>
+      <button class="all-sidecars-btn" id="all-sidecars-btn">Show everything (<span id="stat-total">0</span>)</button>
     </div>
   </main>
 
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Logo detail" hidden>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Detail" hidden>
     <button class="lightbox-close" id="lightbox-close" aria-label="Close">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
@@ -94,8 +90,8 @@
           </button>
         </div>
         <div class="lightbox-nav">
-          <button class="nav-btn" id="lb-prev" aria-label="Previous logo">← Prev</button>
-          <button class="nav-btn" id="lb-next" aria-label="Next logo">Next →</button>
+          <button class="nav-btn" id="lb-prev" aria-label="Previous">← Prev</button>
+          <button class="nav-btn" id="lb-next" aria-label="Next">Next →</button>
         </div>
       </div>
     </div>
@@ -113,18 +109,19 @@
           <img class="edit-modal-preview" id="edit-modal-preview" src="" alt="" />
         </div>
         <div class="edit-modal-form">
-          <p class="edit-modal-label">AI Edit with <strong>nano banana pro</strong></p>
+          <p class="edit-modal-label">AI Edit with <strong>Qwen-Image-Edit</strong></p>
           <p class="edit-modal-sub" id="edit-modal-logo-name"></p>
           <textarea
             class="edit-prompt-input"
             id="edit-prompt-input"
             rows="3"
-            placeholder="Describe your edit… e.g. Change the text to read SANDBOX everything"
+            placeholder="Describe your edit… e.g. Add a top caption that says WHEN MONDAY HITS"
           ></textarea>
           <div class="edit-modal-actions">
-            <button class="edit-quick-btn" data-prompt="Change all text to read SANDBOX everything, keep the same style">✦ SANDBOX everything</button>
-            <button class="edit-quick-btn" data-prompt="Remove all text from the image, keep only the sidecar graphic">✦ Remove text</button>
-            <button class="edit-quick-btn" data-prompt="Make the sidecar neon and futuristic with glowing cyan and purple">✦ Neon style</button>
+            <button class="edit-quick-btn" data-prompt="Add bold white impact-font caption text at the top reading WHEN MONDAY HITS and at the bottom reading EVERY SINGLE WEEK, classic meme style">✦ Add meme caption</button>
+            <button class="edit-quick-btn" data-prompt="Remove all text from the image, keep only the graphic">✦ Remove text</button>
+            <button class="edit-quick-btn" data-prompt="Make it deep-fried meme: heavily oversaturated colors, JPEG artifacts, blown-out red and yellow, slight noise">✦ Deep fry</button>
+            <button class="edit-quick-btn" data-prompt="Convert to vaporwave aesthetic: pink and cyan palette, retro grid horizon, soft glow">✦ Vaporwave</button>
           </div>
           <button class="edit-generate-btn" id="edit-generate-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -138,7 +135,7 @@
   <div class="edit-modal-backdrop" id="edit-modal-backdrop"></div>
 
   <!-- ===== CREATE NEW MODAL ===== -->
-  <div class="edit-modal create-modal" id="create-modal" role="dialog" aria-modal="true" aria-label="Create New Logo" hidden>
+  <div class="edit-modal create-modal" id="create-modal" role="dialog" aria-modal="true" aria-label="Create a meme" hidden>
     <div class="edit-modal-inner">
       <button class="edit-modal-close" id="create-modal-close" aria-label="Close">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -146,24 +143,26 @@
       <div class="create-modal-body">
         <div class="create-modal-heading">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <p class="edit-modal-label">Create with <strong>nano banana pro</strong></p>
+          <p class="edit-modal-label">Create with <strong>Qwen-Image-Edit</strong></p>
         </div>
-        <p class="create-modal-hint">Describe any sidecar logo and AI will generate it. It appears in the grid alongside all other logos so everyone can vote on it.</p>
+        <p class="create-modal-hint">Describe a meme (or anything, really) and AI will generate it. It appears in the grid for everyone to vote on. Pick a template below or write your own prompt.</p>
         <textarea
           class="edit-prompt-input create-prompt-input"
           id="create-prompt-input"
           rows="4"
-          placeholder="Describe your sidecar logo…"
+          placeholder="Describe your meme… e.g. Drake meme: ME, looking pleased at TYPING ON A KEYBOARD. Drake, displeased at PROGRAMMING WITH A MOUSE"
         ></textarea>
         <div class="edit-modal-actions">
-          <button class="edit-quick-btn" data-create-prompt="Flat single-color sidecar logo for Sidecar, neon cyan on white background, clean vector silhouette style">✦ Sidecar Neon</button>
-          <button class="edit-quick-btn" data-create-prompt="Sidecar logo, dark mode, purple glowing motorcycle with sidecar with circuit board details, minimal flat style">✦ Sidecar Dark</button>
-          <button class="edit-quick-btn" data-create-prompt="Sidecar logo, retro pixel art style, 8-bit motorcycle with sidecar in bright colors on white background">✦ Sidecar Pixel</button>
-          <button class="edit-quick-btn" data-create-prompt="Sidecar logo, sidecar made of a vintage motorcycle on a beach, fun playful colorful illustration style">✦ Sidecar Beach</button>
+          <button class="edit-quick-btn" data-create-prompt="Classic Drake meme format. Two stacked panels. Top panel: Drake holding his hand up rejecting the text 'Reading the docs'. Bottom panel: Drake pointing approvingly at the text 'Asking the AI'. Bold Impact-font white text with black outline. Yellow background.">✦ Drake meme</button>
+          <button class="edit-quick-btn" data-create-prompt="Classic 'Distracted Boyfriend' meme template. A man walking with his girlfriend turns his head to stare at another woman walking by. The girlfriend (labeled 'My current project') looks shocked. The other woman (labeled 'A new shiny side project') walks past confidently. The boyfriend (labeled 'Me') stares. Bold Impact-font labels.">✦ Distracted boyfriend</button>
+          <button class="edit-quick-btn" data-create-prompt="'Two Buttons' meme template. A man sweating profusely as he debates pressing one of two red buttons. Left button labeled 'Refactor the code'. Right button labeled 'Ship it and pray'. White Impact-font labels with black outline.">✦ Two buttons</button>
+          <button class="edit-quick-btn" data-create-prompt="'This is Fine' meme. A cartoon dog wearing a hat sits at a table drinking coffee while the room around him is engulfed in flames. The dog calmly says 'This is fine.' Bold Impact-font caption at the top reading 'PRODUCTION ON A FRIDAY AFTERNOON'.">✦ This is fine</button>
+          <button class="edit-quick-btn" data-create-prompt="'Galaxy Brain' meme. Four stacked panels showing a brain progressively glowing brighter and bigger, from a normal brain to a cosmic universe-brain. Each panel labeled with progressively more absurd takes on the same theme. Bold Impact-font labels.">✦ Galaxy brain</button>
+          <button class="edit-quick-btn" data-create-prompt="'Woman Yelling at Cat' meme. Left panel: a blonde woman crying and pointing aggressively, with a caption above saying 'WHY ISN’T IT WORKING?!'. Right panel: a confused-looking white cat sitting at a dinner table with the caption 'IT WORKED ON MY MACHINE'. Bold Impact-font white text with black outline.">✦ Woman yelling at cat</button>
         </div>
         <button class="edit-generate-btn" id="create-generate-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          Generate Logo
+          Generate
         </button>
         <div class="edit-status" id="create-status" hidden></div>
       </div>
@@ -171,7 +170,10 @@
   </div>
   <div class="edit-modal-backdrop" id="create-modal-backdrop"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"
+    integrity="sha384-2zrRDgDHSYB/GN3nFW3fsZXoxEhKIr3N2h63Tc6DEOB9JJdFIu8xMJT2Cph/gBil"
+    crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
 </html>

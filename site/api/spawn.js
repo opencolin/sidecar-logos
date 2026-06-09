@@ -1,4 +1,4 @@
-// Vercel serverless function — Spawn 20 AI variations when a logo is upvoted.
+// Vercel serverless function — Spawn 20 AI variations when an image is upvoted.
 //
 // Generates via Qwen-Image-Edit on Tailscale Funnel (free, instruction-based,
 // ~12s/edit, server-side serialized). Each result is uploaded to Supabase
@@ -16,38 +16,40 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const STORAGE_BUCKET = 'edit-images';
 const QWEN_ENDPOINT = 'https://wildolga.tail7a71df.ts.net:8443/edit';
 
-// 10 same-subject variations
+// 10 same-subject variations — preserve any existing text/captions in the
+// source. Works equally well for memes and logos.
 const PERTURBATIONS = [
-  { tag: 'var:darker',    prompt: 'Shift the color palette darker and moodier. Keep the same subject, same composition, same wordmark "sidecar" unchanged.' },
-  { tag: 'var:lighter',   prompt: 'Shift the palette lighter, pastel, airy. Keep the subject and composition unchanged. Keep the wordmark "sidecar".' },
-  { tag: 'var:minimal',   prompt: 'Strip non-essential detail. Reduce to essential geometric forms. Keep the subject recognizable and the wordmark "sidecar".' },
-  { tag: 'var:detailed',  prompt: 'Add tasteful detail, finer linework, additional flourishes. Same subject, same wordmark "sidecar".' },
-  { tag: 'var:geometric', prompt: 'Reinterpret using strictly geometric primitives — circles, squares, triangles. Same subject, same wordmark "sidecar".' },
-  { tag: 'var:organic',   prompt: 'Reinterpret with softer organic hand-drawn curves. Same subject, same wordmark "sidecar".' },
-  { tag: 'var:accent',    prompt: 'Swap in a single bold accent color complementary to the original. Same subject and composition. Same wordmark "sidecar".' },
-  { tag: 'var:texture',   prompt: 'Add subtle paper grain or halftone texture. Same subject and composition. Same wordmark "sidecar".' },
-  { tag: 'var:inverted',  prompt: 'Invert the palette (light becomes dark and vice versa). Same subject. Same wordmark "sidecar".' },
-  { tag: 'var:rotated',   prompt: 'Render the subject from a slightly different angle or mirrored framing. Same style, same wordmark "sidecar".' },
+  { tag: 'var:darker',    prompt: 'Shift the color palette darker and moodier. Keep the same subject, same composition, and preserve any existing text/captions exactly.' },
+  { tag: 'var:lighter',   prompt: 'Shift the palette lighter, brighter, more vibrant. Keep the subject, composition, and any existing text/captions intact.' },
+  { tag: 'var:minimal',   prompt: 'Strip non-essential detail. Reduce to essential geometric forms. Keep the subject recognizable and preserve any text exactly.' },
+  { tag: 'var:detailed',  prompt: 'Add tasteful detail, finer linework, additional flourishes. Same subject and any text intact.' },
+  { tag: 'var:geometric', prompt: 'Reinterpret the subject using strictly geometric primitives — circles, squares, triangles. Preserve any existing text.' },
+  { tag: 'var:organic',   prompt: 'Reinterpret with softer organic hand-drawn curves. Same subject, preserve text.' },
+  { tag: 'var:accent',    prompt: 'Swap in a single bold accent color complementary to the original. Same subject, same composition, same text.' },
+  { tag: 'var:deepfried', prompt: 'Deep-fry the image: heavy JPEG artifacts, oversaturated reds and yellows, blown-out contrast, slight noise. Keep the subject and text recognizable.' },
+  { tag: 'var:inverted',  prompt: 'Invert the palette (light becomes dark and vice versa). Same subject and text.' },
+  { tag: 'var:framed',    prompt: 'Render the subject from a slightly different angle or with mirrored/zoomed-in framing. Same overall style and text.' },
 ];
 
-// 10 creative-riff prompts — same style reference, entirely new subject
+// 10 creative-riff prompts — use the upvoted image as a STYLE reference only
+// (palette, line weight, typography, mood) but generate an entirely new subject.
+// Mix of meme templates and abstract pictograms.
 const RIFF_PREFIX =
   'Completely replace the subject. Match the reference image only for ' +
   'palette, line weight, typography style, and overall mood — but change ' +
-  'WHAT it depicts. Keep the wordmark "sidecar" (lowercase). ' +
-  'No motorcycle, no bicycle, no wheels. New subject: ';
+  'WHAT it depicts. New subject: ';
 
 const CREATIVE_RIFFS = [
-  { tag: 'riff:two-cubes',     prompt: RIFF_PREFIX + 'two cubes side by side, one large primary cube with a smaller helper cube docked to its edge (Docker sidecar pattern).' },
-  { tag: 'riff:rj45',          prompt: RIFF_PREFIX + 'a single RJ45 ethernet plug head-on with gold pins visible inside the clear housing.' },
-  { tag: 'riff:container-ship',prompt: RIFF_PREFIX + 'a stylized container ship laden with stacked shipping containers, side profile.' },
-  { tag: 'riff:padlock',       prompt: RIFF_PREFIX + 'a clean minimalist padlock with subtle hex-lattice texture (WireGuard encryption).' },
-  { tag: 'riff:globe-pins',    prompt: RIFF_PREFIX + 'a stylized globe with five small region pins marking regions.' },
-  { tag: 'riff:terminal',      prompt: RIFF_PREFIX + 'a small terminal window with a "$" prompt and the wordmark "sidecar" beside it.' },
-  { tag: 'riff:whale',         prompt: RIFF_PREFIX + 'a Docker-style whale silhouette carrying stacked shipping containers on its back.' },
-  { tag: 'riff:network-mesh',  prompt: RIFF_PREFIX + 'a network topology graph of nodes connected by thin lines.' },
-  { tag: 'riff:monogram-s',    prompt: RIFF_PREFIX + 'a bold geometric letter S monogram inscribed inside a hexagon or shield.' },
-  { tag: 'riff:ip-tag',        prompt: RIFF_PREFIX + 'a luggage-tag-style label showing the IP address "203.0.113.42" in clean monospace, hanging from a loop.' },
+  { tag: 'riff:drake',          prompt: RIFF_PREFIX + 'Classic Drake meme format with two stacked panels showing Drake rejecting one option and approving another. Bold Impact-font white captions with black outline.' },
+  { tag: 'riff:two-buttons',    prompt: RIFF_PREFIX + 'The "Two Buttons" meme: a person sweating profusely as they debate pressing one of two red buttons. White Impact-font labels with black outline.' },
+  { tag: 'riff:this-is-fine',   prompt: RIFF_PREFIX + 'The "This is Fine" meme: a small cartoon dog calmly sitting at a table while the room burns around it. Bold caption at top.' },
+  { tag: 'riff:galaxy-brain',   prompt: RIFF_PREFIX + 'The "Galaxy Brain" / "Expanding Brain" meme: four stacked panels of a brain progressively glowing brighter into a cosmic universe-brain.' },
+  { tag: 'riff:woman-cat',      prompt: RIFF_PREFIX + 'The "Woman Yelling at Cat" meme: left panel of a blonde woman pointing aggressively, right panel of a confused white cat at a dinner table.' },
+  { tag: 'riff:distracted',     prompt: RIFF_PREFIX + 'The "Distracted Boyfriend" meme: a man walking with his girlfriend turns to stare at another woman walking by.' },
+  { tag: 'riff:minimal-logo',   prompt: RIFF_PREFIX + 'A clean minimalist abstract logo mark — geometric shapes (circles, squares, hexagons) suggesting a brand identity.' },
+  { tag: 'riff:emoji-mark',     prompt: RIFF_PREFIX + 'A single playful emoji-style face or pictogram, slightly chunky, bold outlines.' },
+  { tag: 'riff:meme-caption',   prompt: RIFF_PREFIX + 'A bold Impact-font meme caption arranged top-and-bottom over a photographic stock-image scene.' },
+  { tag: 'riff:vintage-poster', prompt: RIFF_PREFIX + 'A retro mid-century travel-poster-style illustration of a place or activity, bold geometry, restricted palette.' },
 ];
 
 const ALL_PROMPTS = [...PERTURBATIONS, ...CREATIVE_RIFFS];

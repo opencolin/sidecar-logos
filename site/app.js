@@ -1493,6 +1493,11 @@ const SESSION_ID = crypto.randomUUID();
 let votes = {}; // { id: { up: 0, down: 0, userVote: null } }
 let sortMode = 'votes';
 let searchQuery = '';
+// Archive toggle: when false, hide the 1,500+ Sidecar-era logos in LOGOS so the
+// gallery shows only memes/edits. Persists in localStorage.
+let showSidecarArchive = (function () {
+  try { return localStorage.getItem('showSidecarArchive') === 'true'; } catch { return false; }
+})();
 let lightboxId = null;
 let filteredIds = [];
 let voteInFlight = new Set(); // prevent double-clicks
@@ -1681,7 +1686,7 @@ function getSortedFiltered() {
   // Each entry carries a uniform shape so the sort + render dispatch is simple.
   const q = (searchQuery || '').toLowerCase();
 
-  const logoEntries = LOGOS
+  const logoEntries = (showSidecarArchive ? LOGOS : [])
     .filter(l => !q || l.label.toLowerCase().includes(q))
     .map(l => {
       const v = votes[l.id] || { up: 0, down: 0 };
@@ -1828,7 +1833,7 @@ function createCard(logo, idx) {
   card.innerHTML = `
     <span class="rank-badge">#${idx + 1}</span>
     <div class="logo-img-wrap">
-      <img class="logo-img" src="${logoUrl(logo)}" alt="${logo.label} sidecar logo" loading="lazy" decoding="async" />
+      <img class="logo-img" src="${logoUrl(logo)}" alt="${logo.label}" loading="lazy" decoding="async" />
       <span class="logo-num">${String(logo.id).padStart(3,'0')}</span>
     </div>
     <div class="logo-body">
@@ -1965,7 +1970,7 @@ function updateLightbox() {
   const score = getScore(logo.id);
 
   document.getElementById('lightbox-img').src = logoUrl(logo);
-  document.getElementById('lightbox-img').alt = `${logo.label} sidecar logo`;
+  document.getElementById('lightbox-img').alt = logo.label;
   document.getElementById('lightbox-num').textContent = `#${String(logo.id).padStart(3,'0')} of ${LOGOS.length}`;
   document.getElementById('lightbox-title').textContent = logo.label;
 
@@ -2019,12 +2024,12 @@ document.querySelector('.search-input').addEventListener('input', (e) => {
   render();
 });
 
-// All Sidecars button — clears search and resets sort to show everything
+// "Show everything" button — clears search and resets to show everything in the gallery
 document.getElementById('all-sidecars-btn').addEventListener('click', () => {
   searchQuery = '';
   document.querySelector('.search-input').value = '';
-  document.getElementById('all-sidecars-btn').textContent = `All Sidecars (${LOGOS.length})`;
   render();
+  updateShowEverythingLabel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
@@ -2118,8 +2123,15 @@ let editPolls = {};
 
 // ===== INIT =====
 // Show a placeholder render immediately, then load real data from Supabase
-document.getElementById('stat-total').textContent = LOGOS.length;
-document.getElementById('all-sidecars-btn').textContent = `All Sidecars (${LOGOS.length})`;
+function updateShowEverythingLabel() {
+  const visibleLogos = showSidecarArchive ? LOGOS.length : 0;
+  const editCount = Object.values(editCards).filter(e => e.status === 'done' && e.imageDataUrl).length;
+  const total = visibleLogos + editCount;
+  document.getElementById('stat-total').textContent = total;
+  const btn = document.getElementById('all-sidecars-btn');
+  if (btn) btn.textContent = `Show everything (${total})`;
+}
+updateShowEverythingLabel();
 render();
 updateStats();
 loadVotesFromSupabase();
@@ -2397,7 +2409,7 @@ async function submitEdit() {
       }),
     });
 
-    statusEl.innerHTML = '<span class="spinner"></span> Generating with nano banana pro… (may take ~30s)';
+    statusEl.innerHTML = '<span class="spinner"></span> Generating with Qwen… (may take ~30s)';
 
     const data = await res.json();
     if (!res.ok || data.error || data.status === 'error') {
@@ -2453,7 +2465,7 @@ function addPendingEditCard(jobId, logoId, prompt) {
       <p class="logo-label">${parentLabel}</p>
       <p class="edit-prompt-tag">"${prompt}"</p>
       <div style="display:flex;align-items:center;gap:0.4rem;margin-top:0.5rem;font-size:var(--text-xs);color:var(--color-text-muted)">
-        <span class="spinner"></span> nano banana pro is cooking…
+        <span class="spinner"></span> Qwen is cooking…
       </div>
     </div>
   `;
@@ -2556,8 +2568,8 @@ document.addEventListener('keydown', e => {
 const VERCEL_CREATE_API = '/api/create';
 
 function openCreateModal() {
-  const DEFAULT_PROMPT = 'Flat single-color sidecar logo for Sidecar, neon cyan on white background, clean vector silhouette style, no gradients';
-  document.getElementById('create-prompt-input').value = DEFAULT_PROMPT;
+  // Start with an empty prompt so users see the placeholder and the meme presets.
+  document.getElementById('create-prompt-input').value = '';
   document.getElementById('create-status').hidden = true;
   document.getElementById('create-generate-btn').disabled = false;
   document.getElementById('create-modal').hidden = false;
@@ -2586,7 +2598,7 @@ async function submitCreate() {
   btn.disabled = true;
   statusEl.hidden = false;
   statusEl.className = 'edit-status';
-  statusEl.innerHTML = '<span class="spinner"></span> Generating with nano banana pro… (may take ~30s)';
+  statusEl.innerHTML = '<span class="spinner"></span> Generating with Qwen… (may take ~30s)';
 
   try {
     const res = await fetch(VERCEL_CREATE_API, {
@@ -2819,6 +2831,19 @@ function buildMintCard(edit) {
 
   return card;
 }
+
+// ===== SIDECAR ARCHIVE TOGGLE =====
+(function wireArchiveToggle() {
+  const input = document.getElementById('archive-toggle-input');
+  if (!input) return;
+  input.checked = showSidecarArchive;
+  input.addEventListener('change', (e) => {
+    showSidecarArchive = e.target.checked;
+    try { localStorage.setItem('showSidecarArchive', String(showSidecarArchive)); } catch {}
+    render();
+    updateShowEverythingLabel();
+  });
+})();
 
 // ===== LOAD EDITS ON INIT =====
 loadEditsFromSupabase();

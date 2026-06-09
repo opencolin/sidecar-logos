@@ -305,6 +305,35 @@ input { font: inherit; color: inherit; }
 }
 .theme-toggle:hover { color: var(--color-text); border-color: var(--color-primary); }
 
+.archive-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-offset);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.archive-toggle:hover { color: var(--color-text); border-color: var(--color-primary); }
+.archive-toggle input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+.archive-toggle:has(input:checked) {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
 .stats-bar {
   max-width: var(--content-max);
   margin: 0 auto;

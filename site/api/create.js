@@ -1,12 +1,13 @@
-// Vercel serverless function — Create a brand-new sidecar logo from a text
-// prompt, via Qwen-Image-Edit. Since Qwen always needs an input image, we
-// use a clean minimalist seed image and instruct Qwen to completely replace
-// its subject with the user's prompt. The seed's aesthetic neutrality
-// (mono-flat black on white) lets the prompt dominate the output.
+// Vercel serverless function — Create a brand-new image (meme or logo) from a
+// text prompt, via Qwen-Image-Edit. Since Qwen always needs an input image, we
+// use a neutral mono-flat seed image and instruct Qwen to completely replace
+// its subject with the user's prompt.
 
 export const config = { maxDuration: 120 };
 
 const QWEN_ENDPOINT = 'https://wildolga.tail7a71df.ts.net:8443/edit';
+// Neutral two-cube on white as the seed — its mono-flat aesthetic is minimal
+// enough that the user's prompt dominates the output regardless of subject.
 const SEED_IMAGE_URL = 'https://raw.githubusercontent.com/opencolin/sidecar-logos/main/logos-v3/001_two-cubes_mono-flat.png';
 
 let cachedSeed = null;
@@ -28,11 +29,12 @@ export default async function handler(req, res) {
   const { prompt } = req.body || {};
   if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
 
+  // Tell Qwen to ignore the seed completely and render the user's request.
+  // Square 1:1 to match the gallery's grid.
   const fullPrompt =
     'Completely replace the subject of this image. Ignore the current ' +
     'mono-flat two-cube reference entirely — it is only a neutral seed. ' +
-    'Produce a new logo: ' + prompt + '. Square 1:1, the only text in ' +
-    'the image is the word "sidecar" (lowercase). No motorcycle, no wheels.';
+    'Render: ' + prompt + '. Square 1:1 aspect ratio.';
 
   let seedBytes;
   try {
